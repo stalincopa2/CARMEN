@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<!-- WELCOME-->
+<section class="welcome p-t-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title-4">
+                    Welcome back
+                    <span>John!</span>
+                </h1>
+                <hr class="line-seprate">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END WELCOME-->
+<!-- STATISTIC-->
+<section class="statistic statistic2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <div class="statistic__item statistic__item--green" id="Register" >
+                    <h2 class="number">ATENCIÓN EN MESA</h2>
+                    <span class="desc">Se registran las ventas</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-check-square"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="statistic__item statistic__item--orange" id="Create">
+                    <h2 class="number">VENTA RAPIDA</h2>
+                    <span class="desc">Se registran las ventas con los pagos</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END STATISTIC-->
+
+<script>
+    const Create = document.getElementById("Create");
+    const Register = document.getElementById("Register");
+
+    const UrlCreate = "@Url.Action("Create","Ventas")";
+    const UrlRegister = "@Url.Action("Register","Ventas")";
+
+    Create.addEventListener("click", function () {
+        window.location.href = UrlCreate; 
+    })
+
+    Register.addEventListener("click", function () {
+        window.location.href = UrlRegister;
+    })
+</script>

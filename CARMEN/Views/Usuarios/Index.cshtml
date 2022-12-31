@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CARMEN.Models.USUARIO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listado de usuarios</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo Usuario", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ROL.NOMBRE_ROL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CEDULA_USUARIO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE_USUARIO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SEXO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SIS_USUARIO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ROL.NOMBRE_ROL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CEDULA_USUARIO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE_USUARIO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SEXO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SIS_USUARIO)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_USUARIO }) |
+            @Html.ActionLink("Detalle", "Details", new { id=item.ID_USUARIO }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.ID_USUARIO })
+        </td>
+    </tr>
+}
+
+</table>

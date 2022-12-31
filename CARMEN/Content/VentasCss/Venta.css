@@ -1,0 +1,84 @@
+﻿.page-content--bgf7 {
+    padding-top:15px;
+}
+
+.cantInput {
+    width: 38px;
+    padding: 0px;
+}
+
+.table {
+    margin-top: 20px;
+    margin-left:10px;
+    max-width: 400px;
+}
+.table thead th{
+    font-size:10px
+}
+.table tbody td {
+    font-size: 10px;
+    margin:0px;
+    padding:0px;
+}
+
+
+.formVenta{
+    text-align: left;
+    font-size: 11px;
+    max-width:300px;
+}
+.formVenta .form-group input{
+    margin: 0px 1px auto 0px;
+    height: 20px;
+    max-width:200px;
+    
+}
+.formVenta .form-group select {
+    margin: 0px 1px auto 0px;
+    height: 2px;
+    max-width: 200px;
+}
+/**CONFIGURACION DEL DETALLE VENTA DE LA TABLA*/
+.table-DETVENTA th, td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 20px;
+    max-width: 80px;
+}
+.table-DETVENTA .Cant {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.table-DETVENTA .Descripcion {
+    padding-left: 10px;
+    padding-right: 50px;
+}
+.table-DETVENTA .Precio{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.table-DETVENTA .Total {
+    padding-left: 10px;
+    padding-right: 0px;
+}
+.table-DETVENTA .Op {
+    padding-left: 10px;
+    padding-right: 0px;
+}
+.table-DETVENTA .Eliminar {
+    padding-left: 1px;
+    padding-right: 0px;
+}
+
+
+#DETALLE_VENTA_DIV{
+    max-height:155px;
+    height: 155px;
+}
+#PrByCategorias {
+    max-height: 290px;
+    height: 290px;
+}
+.btnIcon{
+    padding:15px;
+}

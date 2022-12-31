@@ -1,0 +1,83 @@
+﻿@model CARMEN.Models.USUARIO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>USUARIO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ROL.NOMBRE_ROL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROL.NOMBRE_ROL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUCURSAL.RUC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUCURSAL.RUC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CEDULA_USUARIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CEDULA_USUARIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRE_USUARIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE_USUARIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL_USUARIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL_USUARIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SEXO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SEXO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CONTRACENIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CONTRACENIA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SIS_USUARIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SIS_USUARIO)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_USUARIO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,48 @@
+﻿@model CARMEN.Models.DET_PAGO
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DET_PAGO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.METODO_PAGO.NOMBRE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.METODO_PAGO.NOMBRE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VENTA.COD_VENTA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VENTA.COD_VENTA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MONTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MONTO)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

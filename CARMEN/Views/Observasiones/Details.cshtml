@@ -1,0 +1,26 @@
+﻿@model CARMEN.Models.OBSERVACION
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OBSERVACION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DET_OBSER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DET_OBSER)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_OBSERVACION }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

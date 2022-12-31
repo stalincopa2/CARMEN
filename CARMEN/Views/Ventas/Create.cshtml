@@ -1,0 +1,315 @@
+﻿@model CARMEN.Models.VENTA
+
+@{
+    ViewBag.Title = "Create";
+
+}
+
+<link rel="stylesheet" href="~/Content/slide.css" />
+<link rel="stylesheet" href="~/Content/VentasCss/Venta.css" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 col-sm-7">
+            <div class="row">
+                <div class="containerSlider">
+                    <div class="slider">
+                        @foreach (var pr in ViewBag.CATEGORIAS)
+                        {
+                            <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="cargeList">@pr.NOMBRE </button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item ">
+                        <a class="page-link control prev" href="#" tabindex="-1"><</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link control next" href="#">></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="row pre-scrollable" id="PrByCategorias">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                CODIGO
+                            </th>
+                            <th>
+                                NOMBRE
+                            </th>
+                            <th>
+                                PRECIO
+                            </th>
+                            <th>
+                                FOTO
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="productosList">
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <a href="@Url.Action("Index","Home")">Regresar </a>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            @using (Html.BeginForm("Create", "Ventas", FormMethod.Post, new { name = "formulario" }))
+            {
+                @Html.AntiForgeryToken()
+             <div class="form formVenta">
+                <h4>NUEVA VENTA</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        @Html.DropDownList("ID_MESA", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ID_MESA, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group" style="display:none;">
+                    @Html.LabelFor(model => model.ID_USUARIO, "USUARIO", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-3 col-sm-3">
+                        <input name="ID_USUARIO" id="ID_USUARIO" value="1" readonly class="form-control" />
+                        @Html.ValidationMessageFor(model => model.ID_CLIENTE, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.ID_CLIENTE, "CLIENTE", htmlAttributes: new { @class = "control-label col-md-6 col-sm-6" })
+                    <div class="col-md-6 col-sm-6">
+                        <input name="ID_CLIENTE" id="ID_CLIENTE" value="1" readonly class="form-control" />
+                        @Html.ValidationMessageFor(model => model.ID_CLIENTE, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:none;">
+                    @Html.LabelFor(model => model.ID_ESTVENTA, "ID_ESTVENTA", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-3">
+                        <input readonly type="hidden" name="ID_ESTVENTA" id="ID_ESTVENTA" value="1" />
+                        @Html.ValidationMessageFor(model => model.ID_ESTVENTA, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        <input type="number" readonly name="NRO_PEDIDO" class="form-control" value="@ViewBag.NRO_PEDIDO" />
+                        @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.COD_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        <input type="text" class="form-control" value="@ViewBag.COD_VENTA" id="COD_VENTA" name="COD_VENTA" readonly />
+                        @Html.ValidationMessageFor(model => model.COD_VENTA, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:none;">
+                    @Html.LabelFor(model => model.NRO_FACTURA, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        <input type="text" name="NRO_FACTURA" id="NRO_FACTURA" value="SN" />
+                        @Html.ValidationMessageFor(model => model.NRO_FACTURA, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:none;">
+                    @Html.LabelFor(model => model.CLAVE_ACCESO, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        <input type="text" name="CLAVE_ACCESO" id="CLAVE_ACCESO" value="SN" />
+                        @Html.ValidationMessageFor(model => model.CLAVE_ACCESO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <table class="table-DETVENTA">
+                    <thead>
+                        <tr>
+                            <th class="Cant">
+                                Cant
+                            </th>
+                            <th class="Descripcion">
+                                Descripcion
+                            </th>
+                            <th class="Precio">
+                                Precio
+                            </th>
+                            <th class="Total">
+                                Total
+                            </th>
+                            <th class="Op">
+                                Op
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="pre-scrollable" id="DETALLE_VENTA_DIV">
+                    <table class="table-DETVENTA">
+                        <tbody id="LIST_DETALLE_VENTA">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.TOTAL, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        @Html.EditorFor(model => model.TOTAL, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
+                        @Html.ValidationMessageFor(model => model.TOTAL, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-control">
+                    <button id="cobrarButton" type="button" class="btn btn-success btn-sm btn-info btn-block" onclick="Cobrar('#CobrarModal')">
+                        <i class="fas fa fa-lock fa-lg"></i>  Cobrar
+                    </button>
+                </div>
+            </div>
+
+
+                <!--MODAL PARA COBRAR-->
+                <div class="row">
+                    <div class="modal" tabindex="-1" id="CobrarModal" data-backdrop="static">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    Ingresa el monto
+                                    <br>
+                                </div>
+
+                                <div class="modal-body" id="bodyModalCob">
+                                    <div class="container">
+                                        <div class="row">
+                                            <!-- ID_METODOPAGO-->
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label class="form-control-label">METODOS DE PAGO</label>
+                                                </div>
+                                                @foreach (var item in ViewBag.METODOS_PAGO)
+                                                {
+                                                    <button type="button" value="@item.ID_METODO" id="MetPago" class="btn btn-outline-secondary MetPago" onclick="AddMetodosPago(this)">@item.NOMBRE </button>
+                                                }
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+
+                                                    <label class="form-control-label">Total</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="number" id="TotalModal" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="DetPagos" id="DetPagos">
+
+                                            </div>
+
+
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label class="form-control-label">Cambio</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="number" id="CambioModal" class="form-control" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer" id="footerModalCob">
+                                    <input type="submit" class="btn btn-primary" id="BtnCobrarModal" value="Finalizar Venta" />
+                                    <button class="btn btn-danger" data-dismiss="modal" id="BtnCancelModal">
+                                        cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img id="imgIcon" src="~/Content/Images/productIcon.png" style="display:none" />
+            }
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL PARA CAMBIAR LA OBSERVACION-->
+<div class="row">
+    <div class="modal" tabindex="-1" id="ObservacionModal" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Añadir detalles al producto selecionado
+                    <br>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <!-- ID_OBSERVACION-->
+                            <div class="row form-group" >
+                                <div class="col col-md-3">
+                                    <label class="form-control-label">OBSERVACIONES</label>
+                                </div>
+                                <div class="col-12 col-md-9" id="ObservacionesContent">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" id="FooterModalObs">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/decimal.js"></script>
+<script>
+    let TOTAL = document.getElementById("TOTAL");
+    let dVentaList;
+    let urlProuctosByCategoria = "@Url.Action("ProductosByCategoria","Productos")";
+    let ObservacionesURL = "@Url.Action("GetObservaciones", "Observasiones")";
+    let num = 0;
+</script>
+
+<script src="~/Scripts/slide.js"></script>
+<script src="~/Scripts/VentasScripts/funciones.js"></script>
+<script src="~/Scripts/DetPagosScrtipts/funciones.js"></script>
+<script src="~/Scripts/ProductosScirpts/ProductosAjax.js"></script>
+<script src="~/Scripts/ObservacionesScripts/ObservacionesAjax.js"></script>
+<script>
+
+    function AddProductsToList(element) {
+        var PRODUCTO = dVentaList.find(p => p.ID_PRODUCTO == element.id);
+        var IndiceInput = FindInputCreated(num, PRODUCTO.ID_PRODUCTO);
+
+        if (IndiceInput >= 0) {
+            UpdateValues(IndiceInput);
+        } else {
+            document.getElementById("LIST_DETALLE_VENTA").appendChild(CreateTrProductos(PRODUCTO));
+        }
+
+        TOTAL.setAttribute("value", ChangePunto(CalcularTotal(num).toFixed(3)));
+
+    }
+
+
+</script>

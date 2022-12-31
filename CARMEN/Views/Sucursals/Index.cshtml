@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CARMEN.Models.SUCURSAL>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listado de Sucursales</h2>
+
+<p>
+    @Html.ActionLink("Crear Sucursal", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RUC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DIRECCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TELEFONO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RUC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIRECCION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TELEFONO)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_SUCURSAL }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_SUCURSAL }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_SUCURSAL })
+        </td>
+    </tr>
+}
+
+</table>

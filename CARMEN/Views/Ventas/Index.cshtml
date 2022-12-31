@@ -1,0 +1,269 @@
+﻿@model IEnumerable<CARMEN.Models.VENTA>
+@using CARMEN.Models;
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    int  eV = ViewBag.ESTADO; 
+    var pagina = new PAGINA();
+
+    int pageNo = 0;
+    if (ViewBag.pagina != null)
+    {
+        pagina = ViewBag.pagina;
+        pageNo = pagina.CurrentPage;
+    }
+}
+
+<!-- DATA TABLE-->
+<section class="p-t-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="title-5 m-b-35">Listado de ventas</h3>
+                <div class="table-data__tool">
+                    @*<div class="table-data__tool-left">
+                        <div class="rs-select2--light rs-select2--md">
+                            <select class="js-select2" name="property">
+                                <option selected="selected">All Properties</option>
+                                <option value="">Option 1</option>
+                                <option value="">Option 2</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <div class="rs-select2--light rs-select2--sm">
+                            <select class="js-select2" name="time">
+                                <option selected="selected">Today</option>
+                                <option value="">3 Days</option>
+                                <option value="">1 Week</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <button class="au-btn-filter">
+                            <i class="zmdi zmdi-filter-list"></i>filters
+                        </button>
+                    </div>*@
+                    <div class="table-data__tool-right">
+                        <button class="au-btn au-btn-icon au-btn--green au-btn--small"  onclick="location.href = '@Url.Action("Create")'">
+                            <i class="zmdi zmdi-plus"></i>Nueva venta
+                        </button>
+                        @*<div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                            <select class="js-select2" name="type">
+                                <option selected="selected">Export</option>
+                                <option value="">Option 1</option>
+                                <option value="">Option 2</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FECHA_VENTA)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TOTAL)
+                                </th>      
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NRO_PEDIDO)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="tr-shadow">
+                                    <td>
+                                        @{ 
+                                            string classEstado = "";
+                                            if (item.ESTADO_VENTA.ID_ESTVENTA == 1)
+                                            {
+                                                classEstado = "status--denied";
+                                            }else {
+                                                classEstado = "status--process";
+                                            }
+                                        }
+                                        <span class="@classEstado">@Html.DisplayFor(modelItem => item.ESTADO_VENTA.NOMBRE_ESTADOV)</span>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FECHA_VENTA)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TOTAL)
+                                        @{
+                                            var ID_VENTATOTAL = "TOTAL-" + item.ID_VENTA.ToString();
+                                        }
+                                        <input type="hidden" value="@item.TOTAL" id="@ID_VENTATOTAL" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NRO_PEDIDO)
+                                    </td>
+                                    <td>
+                                        <!--Html.ActionLink("Edit", "Edit", new { id = item.ID_VENTA }) | -->
+                                        <button onclick="location.href = '@Url.Action("Details", new { id=item.ID_VENTA})'" class="item" data-toggle="tooltip" data-placement="top" title="Detalles">
+                                            <i class="zmdi zmdi-more"></i>
+                                        </button>
+                                        <!--Html.ActionLink("Delete", "Delete", new { id = item.ID_VENTA })  -->
+                                    </td>
+                                    <td>
+                                        @if (@item.ID_ESTVENTA == 1)
+                                        {
+                                            <button id="cobrarButton" value="@item.ID_VENTA" type="button" class="btn btn-success btn-sm btn-info btn-block" onclick="ShowModal(this)">
+                                                <i></i>  Cobrar
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END DATA TABLE-->
+
+<div class="container" style="padding:20px;">
+    <div class="row">
+        <div class="col-md-12">
+            @if (pagina.TotalPages > 0)
+            {
+                <ul class="pagination justify-content-end">
+                    @if (pagina.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Ventas", new {  pg = 1 , eVent= eV})" class="page-link"> First </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Ventas", new {  pg = pagina.CurrentPage + 1 , eVent= eV})" class="page-link">Previous </a>
+                        </li>
+
+                    }
+                    @for (int pge = pagina.StartPage; pge <= pagina.TotalPages; pge++)
+                    {
+
+                        <li class="page-item" @(pge == pagina.CurrentPage ? "active" : "")>
+                            <a href="@Url.Action("Index", "Ventas", new {  pg = @pge , eVent= eV})" class="page-link">@pge.ToString()</a>
+                        </li>
+                    }
+
+                    @if (pagina.CurrentPage < pagina.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Ventas", new {  pg = pagina.CurrentPage + 1 , eVent= eV})" class="page-link">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Ventas", new {  pg = pagina.TotalPages , eVent=eV})" class="page-link">Last</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<!--MODAL PARA COBRAR-->
+@using (Html.BeginForm("AddDetPagos", "Det_Pagos", FormMethod.Post, new { name = "formulario" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="modal" tabindex="-1" id="CobrarModal" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Ingresa el monto
+                        <br>
+                    </div>
+
+                    <div class="modal-body" id="bodyModalCob">
+                        <div class="container">
+                            <div class="row">
+                                <!-- ID_METODOPAGO-->
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label class="form-control-label">METODOS DE PAGO</label>
+                                    </div>
+                                    @foreach (var item in ViewBag.METODOS_PAGO)
+                                    {
+                                        var btnID_METODO = "MetPago-" + item.ID_METODO;
+                                        <button type="button" value="@item.ID_METODO" id="@btnID_METODO" class="btn btn-outline-secondary MetPago" onclick="AddMetodosPago(this)">@item.NOMBRE </button>
+                                    }
+                                </div>
+                                <input type="hidden" value="" id="ID_VENTA" name="ID_VENTA" />
+                                <input type="hidden" value="1" id="ID_ESTVENTA" name="ID_ESTVENTA" />
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label class="form-control-label">TOTAL</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <input type="number" id="TotalModal" class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label class="form-control-label">PENDIENTE</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <input type="number" id="PendienteModal" class="form-control" />
+                                    </div>
+                                                                    <h6><b> DETALLES DE PAGOS</b></h6>
+                                <div id="Abonos" style="height:150px;">
+
+                                </div>
+                                </div>-->
+                                <div class="DetPagos" id="DetPagos">
+                                </div>
+
+
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label class="form-control-label">CAMBIO</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <input type="number" id="CambioModal" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" id="footerModalCob">
+                        <input type="submit" class="btn btn-primary" id="BtnCobrarModal" value="Finalizar Venta" />
+                        <button class="btn btn-danger" data-dismiss="modal" id="BtnCancelModal">
+                            cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
+
+<script>
+    let TOTAL;
+    let ID_VENTA = document.getElementById("ID_VENTA");
+</script>
+<script src="~/Scripts/decimal.js"></script>
+<script src="~/Scripts/DetPagosScrtipts/funciones.js"></script>
+<script src="~/Scripts/main.js"></script>
+<script>
+    function ShowModal(input) {
+        TOTAL = document.getElementById("TOTAL-" + input.value);
+        ID_VENTA.value = input.value;
+        PassValuesToModal("#CobrarModal");
+    }
+</script>

@@ -1,0 +1,94 @@
+﻿@model CARMEN.Models.PRODUCTO
+
+@{
+    ViewBag.Title = "Edit";
+    string srcImage = "/Content/Images/productIcon.png"; 
+}
+
+<h2>Editar Producto</h2>
+
+@using (Html.BeginForm("Edit","Productos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>PRODUCTO</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID_PRODUCTO)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID_CATEGORIA, "ID_CATEGORIA", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ID_CATEGORIA", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ID_CATEGORIA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.COD_PRODUCTO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.COD_PRODUCTO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.COD_PRODUCTO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NOMBRE_PRODUCTO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NOMBRE_PRODUCTO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NOMBRE_PRODUCTO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.COSTO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.COSTO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.COSTO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PRECIO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PRECIO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PRECIO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.IMPUESTO_PROD, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IMPUESTO_PROD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IMPUESTO_PROD, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+         @Html.HiddenFor(model => model.FOTO_PRODUCTO);             
+        <div class="form-group">
+            @Html.LabelFor(model => model.FOTO_PRODUCTO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file"  id="FILE_PRODUCTO" class="form-control" onchange="return fileValidation(this)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div id="imagePreview">
+                    @if (Model.FOTO_PRODUCTO != "NA")
+                    {
+                        srcImage = "/Content/ImgProducts/" + Model.FOTO_PRODUCTO; 
+                    }
+                <img src="@srcImage" width="50" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Scripts/ProductosScirpts/ImgValidation.js"></script>

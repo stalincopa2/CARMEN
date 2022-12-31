@@ -1,0 +1,289 @@
+﻿@model CARMEN.Models.VENTA
+
+@{
+    ViewBag.Title = "Success";
+    Decimal TOTAL = 0;
+}
+<link rel="stylesheet" href="~/Content/VentasCss/Venta.css" />
+<style>
+    .table-DETVENTA th, td {
+        font-size: 9px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="card">
+                <div class="hidden-print card-header">
+                    <strong>Detalle</strong> Venta
+                </div>
+                <div class="card-body card-block">
+                    @*<form action="" method="post" class="form-inline">
+                        </form>*@
+                    <div id="dl-horizontal">
+                        <div class="text-center">
+                            <h4>Ticket</h4>
+                        </div>
+                        <hr />
+                        <div class="text-center">
+                            <img src="~/Template/images/logo.jpg" width="50" class="center-block" />
+                        </div>
+                        <dl class="dl-horizontal">
+                            <dd id="CLIENTE">
+                                <b> Cliente:</b>   @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)
+                            </dd>
+
+                            @*<dt>
+                                    @Html.DisplayNameFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
+                                </dd>*@
+
+                            <dd id="USUARIO">
+                                <b> Atendido por:</b> @Html.DisplayFor(model => model.USUARIO.NOMBRE_USUARIO)
+                            </dd>
+                            <dd id="MESA">
+                                <b>Mesa:</b>  @ViewBag.NOMBRE_MESA
+                            </dd>
+                            @*<dt>
+                                    SALON
+                                </dt>
+
+                                <dd id="SALON">
+                                    @ViewBag.SALON
+                                </dd>*@
+                            @*<dt>
+                                    @Html.DisplayNameFor(model => model.COD_VENTA)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.COD_VENTA)
+                                </dd>*@
+                            <dt></dt>
+                            <dd id="FECHA">
+                                <b> @Html.DisplayNameFor(model => model.FECHA_VENTA):</b> @Html.DisplayFor(model => model.FECHA_VENTA)
+                            </dd>
+
+                            <dd id="NROPEDIDO">
+                                <b> @Html.DisplayNameFor(model => model.NRO_PEDIDO):</b>  @Html.DisplayFor(model => model.NRO_PEDIDO)
+                            </dd>
+                        </dl>
+                        <!--DETALLES DE LA VENT-->
+                        <table class="table-DETVENTA">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        Cant
+                                    </th>
+                                    <th></th>
+                                    <th colspan="3" align="left">
+                                        Descripción
+                                    </th>
+                                    <th colspan="3">
+                                        P.U
+                                    </th>
+                                    <th>
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                }
+                                @foreach (var item in Model.DETALLE_VENTA)
+                                {
+                                    string Cantidad = "Cantidad" + i;
+                                    string Descripcion = "Descripcion" + i;
+                                    string PrecioU = "PrecioU" + i;
+                                    string TotalU = "TotalU" + i;
+                                    var TotaluValue = item.PRECIO_UPRODUCT * item.CANTIDAD;
+                                    <tr>
+                                        <td colspan="3" id="@Cantidad">@item.CANTIDAD</td>
+                                        <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO)</td>
+                                        <td></td>
+                                        <td colspan="2" id="@PrecioU">@item.PRECIO_UPRODUCT</td>
+                                        <td id="@TotalU">@TotaluValue</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="NroArticulos" value="@i" />
+
+                        <dl class="dl-horizontal" style="padding-top:15px;">
+                            <dt id="SUBTOTAL1">
+                                Subtotal:  @Html.DisplayFor(model => model.TOTAL)
+                            </dt>
+                            <dt id="SUBTOTAL 2">
+                                Subtotal 0%:  @Html.DisplayFor(model => model.TOTAL)
+                            </dt>
+
+                            <dt id="TOTAL">
+                                Total:  @Html.DisplayFor(model => model.TOTAL)
+                            </dt>
+                        </dl>
+
+                        <dl class="dl-horizontal" style="padding-top:5px;">
+                            @foreach (var item in Model.DET_PAGO)
+                            {
+                                TOTAL += item.MONTO;
+                                <dt>
+                                    @Html.DisplayFor(itemModel => item.METODO_PAGO.NOMBRE): @Html.DisplayFor(itemModel => item.MONTO)
+                                </dt>
+                            }
+                            @{
+                                var cambio = TOTAL - Model.TOTAL;
+                                if (cambio < 0)
+                                {
+                                    cambio = 0;
+                                }
+                            }
+                            <dt>
+
+                                Cambio:  @cambio
+                            </dt>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Opciones de impresión</strong>
+                </div>
+                <form action="@Url.Action("Index","Ticket")" method="get">
+                    <div class="card-body card-block">
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label class=" form-control-label">Areas de impresion</label>
+                            </div>
+                            <div class="col col-md-10">
+                                <div class="form-check-inline form-check">
+                                    @{
+                                        int j = 1;
+                                        string IdName = "";
+                                        foreach (var item in @ViewBag.AREAIMP)
+                                        {
+                                            IdName = "inline-checkbox" + j;
+                                            <label for="@IdName" class="form-check-label ">
+                                                <input type="checkbox" id="@IdName" name="@IdName" value="@item.IP" class="form-check-input">@item.NOMBRE_AREA
+                                            </label>
+                                            j++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <input type="hidden" id="CantAreasImpresion" value="@j" />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        @*<button type="button" class="btn btn-primary btn-sm" onclick="SendToAreas()">
+                                <i class="fa fa-print"></i> Imprimir
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="mostrar_impresoras()">
+                                <i class="fa fa-ban"></i> Imprimir
+                            </button>*@
+                        <button type="button" class="btn btn-primary btn-sm Imprimir" id="btnImprimir">
+                            <i class="fa fa-print"></i> Imprimir
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p>
+    @{
+        if (@ViewBag.TipoRegistro == 1)
+        {
+            <a href="@Url.Action("Register", "Ventas")"> Nuevo Pedido</a>
+        }
+        else
+        {
+            <a href="@Url.Action("Create", "Ventas")"> Nueva Venta</a>
+        }
+    }
+
+</p>
+
+
+<script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
+<script>
+
+    const btnImprimir = document.querySelector("#btnImprimir")
+    const CantImpresoras = document.getElementById("CantAreasImpresion").value;
+    const UrlPrint = "@Url.Action("PrintWhitPlugin", "Ticket")";
+    
+    let AreaImpresion = { };
+
+    btnImprimir.addEventListener("click", function () {
+       
+
+        if (!VerificarSeleciion()) {
+            alert("Selecciona al menos una area de impresión");
+        } else {
+            IterarImpresoras();
+        }
+
+    });
+
+    function IterarImpresoras() {
+        for (let i = 1; i < CantImpresoras; i++) {          
+
+           
+           let ImpresoraName = document.getElementById("inline-checkbox" + i);
+           if (ImpresoraName.checked) {
+               AreaImpresion = {
+                   ID_AREA: 1,
+                   ID_SUCURSAL: 1,
+                   NOMBRE_AREA: "SN", 
+                   IP:ImpresoraName.value,
+               }
+               PrintAjax(AreaImpresion);
+            }
+        }
+       
+    }
+
+    function VerificarSeleciion() {
+        let selectec = false
+        for (let i = 1; i < CantImpresoras; i++) {
+            let ImpresoraName = document.getElementById("inline-checkbox" + i);
+            if (ImpresoraName.checked) {
+                selectec = true;
+            }
+        }
+        return selectec; 
+    }
+
+
+    function PrintAjax(Obj) {
+
+        $.ajax({ // cabecera de mi metodo ajax
+            url: UrlPrint,
+            type: "GET",
+            data: Obj,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            befonreSend: function () {
+                console.log("Accion terminada");
+            }
+        }).done(function (data) {
+
+            if (data == true) {
+                alert("Impresion realizada con exito");
+            } else {
+                alert("Ha ocurrido un error")
+            }
+        });
+    }
+
+</script>
+
