@@ -26,12 +26,10 @@
                         </div>
                         <hr />
                         <div class="text-center">
-                            <img src="~/Template/images/logo.jpg" width="50" class="center-block" />
+                            <img src="~/Template/images/logo.jpg" width="50" class="center-block" id="LOGO" />
                         </div>
                         <dl class="dl-horizontal">
-                            <dd id="CLIENTE">
-                                <b> Cliente:</b>   @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)
-                            </dd>
+                            <dd id="CLIENTE">Cliente: @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)</dd>
 
                             @*<dt>
                                     @Html.DisplayNameFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
@@ -41,34 +39,12 @@
                                     @Html.DisplayFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
                                 </dd>*@
 
-                            <dd id="USUARIO">
-                                <b> Atendido por:</b> @Html.DisplayFor(model => model.USUARIO.NOMBRE_USUARIO)
-                            </dd>
-                            <dd id="MESA">
-                                <b>Mesa:</b>  @ViewBag.NOMBRE_MESA
-                            </dd>
-                            @*<dt>
-                                    SALON
-                                </dt>
-
-                                <dd id="SALON">
-                                    @ViewBag.SALON
-                                </dd>*@
-                            @*<dt>
-                                    @Html.DisplayNameFor(model => model.COD_VENTA)
-                                </dt>
-
-                                <dd>
-                                    @Html.DisplayFor(model => model.COD_VENTA)
-                                </dd>*@
-                            <dt></dt>
-                            <dd id="FECHA">
-                                <b> @Html.DisplayNameFor(model => model.FECHA_VENTA):</b> @Html.DisplayFor(model => model.FECHA_VENTA)
-                            </dd>
-
-                            <dd id="NROPEDIDO">
-                                <b> @Html.DisplayNameFor(model => model.NRO_PEDIDO):</b>  @Html.DisplayFor(model => model.NRO_PEDIDO)
-                            </dd>
+                            <dd id="USUARIO">Atendido por: @Html.DisplayFor(model => model.USUARIO.NOMBRE_USUARIO)</dd>
+                            <dd id="MESA">Mesa: @ViewBag.NOMBRE_MESA</dd>
+                            <dd id="SALON">Salon: @ViewBag.SALON</dd>   
+                            <dd id="COD_VENTA">@Html.DisplayNameFor(model => model.COD_VENTA): @Html.DisplayFor(model => model.COD_VENTA)</dd>
+                            <dd id="FECHA">@Html.DisplayNameFor(model => model.FECHA_VENTA): @Html.DisplayFor(model => model.FECHA_VENTA)</dd>
+                            <dd id="NROPEDIDO">@Html.DisplayNameFor(model => model.NRO_PEDIDO):  @Html.DisplayFor(model => model.NRO_PEDIDO)</dd>
                         </dl>
                         <!--DETALLES DE LA VENT-->
                         <table class="table-DETVENTA">
@@ -114,25 +90,16 @@
                         <input type="hidden" id="NroArticulos" value="@i" />
 
                         <dl class="dl-horizontal" style="padding-top:15px;">
-                            <dt id="SUBTOTAL1">
-                                Subtotal:  @Html.DisplayFor(model => model.TOTAL)
-                            </dt>
-                            <dt id="SUBTOTAL 2">
-                                Subtotal 0%:  @Html.DisplayFor(model => model.TOTAL)
-                            </dt>
-
-                            <dt id="TOTAL">
-                                Total:  @Html.DisplayFor(model => model.TOTAL)
-                            </dt>
+                            <dt id="SUBTOTAL1">Subtotal:@Html.DisplayFor(model => model.TOTAL)</dt>
+                            <dt id="SUBTOTAL2">Subtotal 0%:@Html.DisplayFor(model => model.TOTAL)</dt>
+                            <dt id="TOTAL">Total:@Html.DisplayFor(model => model.TOTAL)</dt>
                         </dl>
 
                         <dl class="dl-horizontal" style="padding-top:5px;">
                             @foreach (var item in Model.DET_PAGO)
                             {
                                 TOTAL += item.MONTO;
-                                <dt>
-                                    @Html.DisplayFor(itemModel => item.METODO_PAGO.NOMBRE): @Html.DisplayFor(itemModel => item.MONTO)
-                                </dt>
+                                <dt id="MET_PAGO">@Html.DisplayFor(itemModel => item.METODO_PAGO.NOMBRE): @Html.DisplayFor(itemModel => item.MONTO)</dt>
                             }
                             @{
                                 var cambio = TOTAL - Model.TOTAL;
@@ -141,10 +108,7 @@
                                     cambio = 0;
                                 }
                             }
-                            <dt>
-
-                                Cambio:  @cambio
-                            </dt>
+                            <dt id="CAMBIO">Cambio:@cambio</dt>
                         </dl>
                     </div>
                 </div>
@@ -188,8 +152,11 @@
                             <button type="button" class="btn btn-danger btn-sm" onclick="mostrar_impresoras()">
                                 <i class="fa fa-ban"></i> Imprimir
                             </button>*@
-                        <button type="button" class="btn btn-primary btn-sm Imprimir" id="btnImprimir">
+                        <button type="button" class="btn btn-primary btn-sm Imprimir" onclick="imprimir()" >
                             <i class="fa fa-print"></i> Imprimir
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm Imprimir" id="btnMostrar">
+                            <i class="fa fa-print"></i> Mostr Impresotas 
                         </button>
                     </div>
                 </form>
@@ -215,57 +182,17 @@
 
 
 <script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/LogicPrint.js"></script>
+<script src="~/Scripts/PluginImpresora.js"></script>
 <script>
-
-    const btnImprimir = document.querySelector("#btnImprimir")
-    const CantImpresoras = document.getElementById("CantAreasImpresion").value;
+    @*const btnImprimir = document.querySelector("#btnImprimir")
+const CantImpresoras = document.getElementById("CantAreasImpresion").value;
     const UrlPrint = "@Url.Action("PrintWhitPlugin", "Ticket")";
-    
-    let AreaImpresion = { };
-
-    btnImprimir.addEventListener("click", function () {
-       
-
-        if (!VerificarSeleciion()) {
-            alert("Selecciona al menos una area de impresión");
-        } else {
-            IterarImpresoras();
-        }
-
-    });
-
-    function IterarImpresoras() {
-        for (let i = 1; i < CantImpresoras; i++) {          
-
-           
-           let ImpresoraName = document.getElementById("inline-checkbox" + i);
-           if (ImpresoraName.checked) {
-               AreaImpresion = {
-                   ID_AREA: 1,
-                   ID_SUCURSAL: 1,
-                   NOMBRE_AREA: "SN", 
-                   IP:ImpresoraName.value,
-               }
-               PrintAjax(AreaImpresion);
-            }
-        }
-       
-    }
-
-    function VerificarSeleciion() {
-        let selectec = false
-        for (let i = 1; i < CantImpresoras; i++) {
-            let ImpresoraName = document.getElementById("inline-checkbox" + i);
-            if (ImpresoraName.checked) {
-                selectec = true;
-            }
-        }
-        return selectec; 
-    }
 
 
-    function PrintAjax(Obj) {
 
+    function imprimir() {
+        var Obj = {}
         $.ajax({ // cabecera de mi metodo ajax
             url: UrlPrint,
             type: "GET",
@@ -277,13 +204,113 @@
             }
         }).done(function (data) {
 
-            if (data == true) {
+            if (data == 'si') {
                 alert("Impresion realizada con exito");
             } else {
                 alert("Ha ocurrido un error")
             }
         });
+    }*@
+
+
+   //const btnImprimir = document.querySelector("#btnImprimir");
+    //const btnMostar = document.getElementById("btnMostrar");
+
+    //btnMostar.addEventListener("click", mostrar_impresoras());
+
+
+    //const CantImpresoras = document.getElementById("CantAreasImpresion").value;
+
+
+    const SrcImg = document.getElementById("LOGO").src;
+    const HeaderTickek = NROPEDIDO + "\n"+FECHA + "\n" +USUARIO + "\n" +MESA + "\n";
+
+    const FooterTikcet = SUBTOTAL1 + "\n" + SUBTOTAL2 + "\n" + TOTAL + "\n\n";
+    const FooterMetPago = MET_PAGO + "\n" + CAMBIO + "\n";
+
+
+    console.log(HeaderTickek);
+    console.log(FooterTikcet);
+    console.log(FooterMetPago);
+    console.log(CLIENTE);
+
+    async function imprimir() {
+        let nombreImpresora = "EPSON TM-U220 Receipt";
+        let api_key = "123456"
+
+
+        const conector = new connetor_plugin()
+        conector.textaling("center")
+
+        conector.text("CAFETERIA TRADICIONAL SARA")
+        conector.textaling("left")
+        conector.text(HeaderTickek)
+        conector.text("==========VENTA RAPIDA==========")
+        conector.textaling("left")
+        conector.text(CLIENTE)
+        //conector.text("Identifcación:")
+        //conector.text("Teléfono:")
+        //conector.text("Correo:")
+        //conector.text("Dirección:")
+        conector.textaling("left")
+        conector.text("Cant.  Descripcion    P.U   TOTAL")
+        conector.text("=================================")
+        conector.text(DETALLEVENTA)
+        conector.text("=================================")
+        conector.textaling("left")
+        conector.text(FooterTikcet)
+        conector.textaling("center")
+        conector.text(FooterMetPago)
+        conector.feed("1")
+        conector.cut("0")
+
+        const resp = await conector.imprimir(nombreImpresora, api_key);
+        if (resp === true) {
+
+        } else {
+            console.log("Problema al imprimir: " + resp)
+
+        }
     }
+
+    //function VerificarSeleciion() {
+    //    let selectec = false
+    //    for (let i = 1; i < CantImpresoras; i++) {
+    //        let ImpresoraName = document.getElementById("inline-checkbox" + i);
+    //        if (ImpresoraName.checked) {
+    //            selectec = true;
+    //        }
+    //    }
+    //    return selectec;
+    //}
+
+
+    //btnImprimir.addEventListener("click", function () {
+
+
+    //    if (!VerificarSeleciion()) {
+    //        alert("Selecciona al menos una area de impresión");
+    //    } else {
+    //        IterarImpresoras();
+    //    }
+
+    //});
+
+    //function IterarImpresoras() {
+    //    for (let i = 1; i < CantImpresoras; i++) {
+    //        let ImpresoraName = document.getElementById("inline-checkbox" + i);
+    //        if (ImpresoraName.checked) {
+    //            imprimir(ImpresoraName.value);
+    //        }
+    //    }
+
+    //}
+    //function mostrar_impresoras() {
+    //    connetor_plugin.obtenerImpresoras()
+    //        .then(impresoras => {
+    //            console.log(impresoras)
+    //        });
+    //}
 
 </script>
 

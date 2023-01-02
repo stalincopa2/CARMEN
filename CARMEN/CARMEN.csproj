@@ -271,6 +271,7 @@
     <Content Include="Scripts\decimal.js" />
     <Content Include="Scripts\DetPagosScrtipts\DetPagosAjax.js" />
     <Content Include="Scripts\DetPagosScrtipts\funciones.js" />
+    <Content Include="Scripts\epos-2.22.0.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.6.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -282,9 +283,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\LogicPrint.js" />
+    <Content Include="Scripts\LogicPrintV2.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ObservacionesScripts\ObservacionesAjax.js" />
+    <Content Include="Scripts\PluginImpresora.js" />
     <Content Include="Scripts\ProductosScirpts\ImgValidation.js" />
     <Content Include="Scripts\ProductosScirpts\ProductosAjax.js" />
     <Content Include="Scripts\slide.js" />

@@ -18,13 +18,13 @@ namespace SaraCoffe.Controllers
     {
 
 
-        public JsonResult PrintWhitPlugin([FromBody] AreaImpresionDto AreaImpresion)
+        public JsonResult PrintWhitPlugin()
         {
 
             PrintService pS = new PrintService();
 
-            var client = new RestClient("http://192.168.1.20:8000");
-            var request = new RestRequest("/imprimir", Method.Post);
+            var client = new RestClient("http://localhost:8080");
+            var request = new RestRequest("/ImpresionTermica/ticket.php", Method.Post);
             request.AddHeader("Content-Type", "application/json");
             var Body = pS.FormatPrint("EPSON");
             
@@ -32,6 +32,20 @@ namespace SaraCoffe.Controllers
             RestResponse response = client.Execute(request);
             return Json(response.Content, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult CashDrawer()
+        {
+            PrintService pS = new PrintService();
+
+            var client = new RestClient("http://localhost:8080");
+            var request = new RestRequest("/ImpresionTermica/CashDrawer.php", Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            var Body = pS.FormatPrint("EPSON");
+
+            request.AddParameter("application/json", Body, ParameterType.RequestBody);
+            RestResponse response = client.Execute(request);
+            return Json(response.Content, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Ticket
         public ActionResult Index()
         {

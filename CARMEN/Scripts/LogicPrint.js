@@ -2,8 +2,14 @@
 const USUARIO = document.getElementById("USUARIO").innerHTML;
 const FECHA = document.getElementById("FECHA").innerHTML;
 const SALON = document.getElementById("SALON").innerHTML;
-//const MESA = document.getElementById("MESA").innerHTML;
+const MESA = document.getElementById("MESA").innerHTML;
+const SUBTOTAL1 = document.getElementById("SUBTOTAL1").innerHTML;
+const SUBTOTAL2 = document.getElementById("SUBTOTAL2").innerHTML;
 const TOTAL = document.getElementById("TOTAL").innerHTML;
+const CAMBIO = document.getElementById("CAMBIO").innerHTML;
+const MET_PAGO = document.getElementById("MET_PAGO").innerHTML;
+
+
 const NROPEDIDO = document.getElementById("NROPEDIDO").innerHTML;
 const NROARTICULOS = document.getElementById("NroArticulos").value;
 const DETALLEVENTA = TextoDetalleVenta();
@@ -26,7 +32,7 @@ function TextoDetalleVenta() {
 
 function LogicaImpresion(Cantidad, Descripcion, PrecioU, TotalU) {
 
-    var Linea = Cantidad + "  " +AgregarEspacios(Descripcion)+"   " + PrecioU + " " + TotalU + "\n"+"   ";  
+    var Linea = Cantidad + "  " +AgregarEspacios(Descripcion)+"   " + PrecioU + " " + TotalU + "\n";  
 
     return Linea;
 }

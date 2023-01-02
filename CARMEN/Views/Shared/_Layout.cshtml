@@ -60,17 +60,17 @@
                             <li>
                                 <a href="@Url.Action("Create", "Ventas")">
                                     <i class="fas  fa-tags"></i>
-                                    <span class="bot-line"></span>Nueva Venta
+                                    <span class="bot-line"></span>Venta Rapida
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Register", "Ventas")">
                                     <i class="fas fa-magic"></i>
-                                    <span class="bot-line"></span>Nuevo Pedido
+                                    <span class="bot-line"></span>Atencion en mesa
                                 </a>
                             </li>
 
-                            <li class="has-sub">
+                            @*<li class="has-sub">
                                 <a href="#">
                                     <i class="fas  fa-shopping-cart"></i>
                                     <span class="bot-line"></span>Funciones Admin
@@ -89,7 +89,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>*@
 
                             <li class="has-sub">
                                 <a href="#">
@@ -126,6 +126,11 @@
                         </ul>
                     </div>
                     <div class="header__tool">
+
+                        <div class="header-button-item js-item-menu" id="CashDrawer" onclick="OpenCashDrawer()">
+                            <i class="fas fa-chevron-circle-down"></i>
+                        </div>
+
                         <div class="header-button-item has-noti js-item-menu">
                             <i class="zmdi zmdi-notifications"></i>
                             <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
@@ -430,3 +435,32 @@
     </div>
 </body>
 </html>
+<script>
+
+
+
+    const UrlPrint = "@Url.Action("CashDrawer", "Ticket")";
+
+
+
+    function OpenCashDrawer() {
+        var Obj = {}
+        $.ajax({ // cabecera de mi metodo ajax
+            url: UrlPrint,
+            type: "GET",
+            data: Obj,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            befonreSend: function () {
+                console.log("Accion terminada");
+            }
+        }).done(function (data) {
+
+            if (data == "\"si\"") {
+                alert("Cajon abierto");
+            } else {
+                console.log(data);
+            }
+        });
+    }
+</script>
