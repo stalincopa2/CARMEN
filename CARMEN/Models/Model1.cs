@@ -44,6 +44,10 @@ namespace CARMEN.Models
                 .Property(e => e.IP)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<AREA_IMPRESION>()
+               .Property(e => e.TIPO);
+               
+
             modelBuilder.Entity<BODEGA>()
                 .Property(e => e.COD_BODEGA)
                 .IsUnicode(false);

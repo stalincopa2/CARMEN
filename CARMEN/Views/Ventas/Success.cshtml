@@ -78,7 +78,14 @@
                                     var TotaluValue = item.PRECIO_UPRODUCT * item.CANTIDAD;
                                     <tr>
                                         <td colspan="3" id="@Cantidad">@item.CANTIDAD</td>
-                                        <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO)</td>
+                                        @if (item.ID_OBSERVACION == 1)
+                                        {
+                                            <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO)</td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO) (@Html.DisplayFor(itemModel => item.OBSERVACION.DET_OBSER))</td>
+                                        }
                                         <td></td>
                                         <td colspan="2" id="@PrecioU">@item.PRECIO_UPRODUCT</td>
                                         <td id="@TotalU">@TotaluValue</td>
@@ -127,37 +134,17 @@
                                 <label class=" form-control-label">Areas de impresion</label>
                             </div>
                             <div class="col col-md-10">
-                                <div class="form-check-inline form-check">
-                                    @{
-                                        int j = 1;
-                                        string IdName = "";
-                                        foreach (var item in @ViewBag.AREAIMP)
-                                        {
-                                            IdName = "inline-checkbox" + j;
-                                            <label for="@IdName" class="form-check-label ">
-                                                <input type="checkbox" id="@IdName" name="@IdName" value="@item.IP" class="form-check-input">@item.NOMBRE_AREA
-                                            </label>
-                                            j++;
-                                        }
-                                    }
-                                </div>
+
+                                @foreach (var item in @ViewBag.AREAIMP)
+                                {
+                                    <button class="btn btn-primary" onclick="imprimir(this, @item.TIPO)" type="button" value="@item.IP" >
+                                        @item.NOMBRE_AREA
+                                    </button>
+                                }
                             </div>
-                            <input type="hidden" id="CantAreasImpresion" value="@j" />
                         </div>
                     </div>
                     <div class="card-footer">
-                        @*<button type="button" class="btn btn-primary btn-sm" onclick="SendToAreas()">
-                                <i class="fa fa-print"></i> Imprimir
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="mostrar_impresoras()">
-                                <i class="fa fa-ban"></i> Imprimir
-                            </button>*@
-                        <button type="button" class="btn btn-primary btn-sm Imprimir" onclick="imprimir()" >
-                            <i class="fa fa-print"></i> Imprimir
-                        </button>
-                        <button type="button" class="btn btn-primary btn-sm Imprimir" id="btnMostrar">
-                            <i class="fa fa-print"></i> Mostr Impresotas 
-                        </button>
                     </div>
                 </form>
             </div>
@@ -183,20 +170,32 @@
 
 <script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
 <script src="~/Scripts/LogicPrint.js"></script>
-<script src="~/Scripts/PluginImpresora.js"></script>
 <script>
-    @*const btnImprimir = document.querySelector("#btnImprimir")
-const CantImpresoras = document.getElementById("CantAreasImpresion").value;
     const UrlPrint = "@Url.Action("PrintWhitPlugin", "Ticket")";
+    const SrcImg = document.getElementById("LOGO").src;
+    const DtosClienteTicket = CLIENTE+"\n"; 
+    const HeaderTickek = NROPEDIDO + "\n" + FECHA + "\n" + USUARIO + "\n" + MESA + "\n";
+    const BodyTicket = DETALLEVENTA;
+    const FooterTikcet = SUBTOTAL1 + "\n" + SUBTOTAL2 + "\n" + TOTAL + "\n\n" + MET_PAGO + "\n" + CAMBIO + "\n";
+
+    
+    function imprimir(input,tipo) {
+        let ticket = {
+            DatosCliente: DtosClienteTicket,
+            Header: HeaderTickek,
+            Body: BodyTicket,
+            Footer: FooterTikcet,
+            Printer: input.value,
+            Tipo :tipo
+        }
 
 
+        console.table(ticket);
 
-    function imprimir() {
-        var Obj = {}
         $.ajax({ // cabecera de mi metodo ajax
             url: UrlPrint,
             type: "GET",
-            data: Obj,
+            data: ticket,
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             befonreSend: function () {
@@ -205,73 +204,57 @@ const CantImpresoras = document.getElementById("CantAreasImpresion").value;
         }).done(function (data) {
 
             if (data == 'si') {
-                alert("Impresion realizada con exito");
+                console.log(data);
             } else {
-                alert("Ha ocurrido un error")
+                console.log(data);
             }
         });
-    }*@
-
-
-   //const btnImprimir = document.querySelector("#btnImprimir");
-    //const btnMostar = document.getElementById("btnMostrar");
-
-    //btnMostar.addEventListener("click", mostrar_impresoras());
-
-
-    //const CantImpresoras = document.getElementById("CantAreasImpresion").value;
-
-
-    const SrcImg = document.getElementById("LOGO").src;
-    const HeaderTickek = NROPEDIDO + "\n"+FECHA + "\n" +USUARIO + "\n" +MESA + "\n";
-
-    const FooterTikcet = SUBTOTAL1 + "\n" + SUBTOTAL2 + "\n" + TOTAL + "\n\n";
-    const FooterMetPago = MET_PAGO + "\n" + CAMBIO + "\n";
-
-
-    console.log(HeaderTickek);
-    console.log(FooterTikcet);
-    console.log(FooterMetPago);
-    console.log(CLIENTE);
-
-    async function imprimir() {
-        let nombreImpresora = "EPSON TM-U220 Receipt";
-        let api_key = "123456"
-
-
-        const conector = new connetor_plugin()
-        conector.textaling("center")
-
-        conector.text("CAFETERIA TRADICIONAL SARA")
-        conector.textaling("left")
-        conector.text(HeaderTickek)
-        conector.text("==========VENTA RAPIDA==========")
-        conector.textaling("left")
-        conector.text(CLIENTE)
-        //conector.text("Identifcación:")
-        //conector.text("Teléfono:")
-        //conector.text("Correo:")
-        //conector.text("Dirección:")
-        conector.textaling("left")
-        conector.text("Cant.  Descripcion    P.U   TOTAL")
-        conector.text("=================================")
-        conector.text(DETALLEVENTA)
-        conector.text("=================================")
-        conector.textaling("left")
-        conector.text(FooterTikcet)
-        conector.textaling("center")
-        conector.text(FooterMetPago)
-        conector.feed("1")
-        conector.cut("0")
-
-        const resp = await conector.imprimir(nombreImpresora, api_key);
-        if (resp === true) {
-
-        } else {
-            console.log("Problema al imprimir: " + resp)
-
-        }
     }
+
+
+    //console.log(HeaderTickek);
+    //console.log(FooterTikcet);
+    //console.log(FooterMetPago);
+    //console.log(CLIENTE);
+
+    //async function imprimir(Name) {
+    //    let nombreImpresora = Name;
+    //    let api_key = "123456"
+
+
+    //    const conector = new connetor_plugin()
+    //    conector.textaling("center")
+
+    //    conector.text("CAFETERIA TRADICIONAL SARA")
+    //    conector.textaling("left")
+    //    conector.text(HeaderTickek)
+    //    conector.text("==========VENTA RAPIDA==========")
+    //    conector.textaling("left")
+    //    conector.text(CLIENTE)
+    //    //conector.text("Identifcación:")
+    //    //conector.text("Teléfono:")
+    //    //conector.text("Correo:")
+    //    //conector.text("Dirección:")
+    //    conector.textaling("left")
+    //    conector.text("Cant.  Descripcion    P.U   TOTAL")
+    //    conector.text("=================================")
+    //    conector.text(DETALLEVENTA)
+    //    conector.text("=================================")
+    //    conector.textaling("left")
+    //    conector.text(FooterTikcet)
+    //    conector.textaling("center")
+    //    conector.text(FooterMetPago)
+    //    conector.feed("1")
+    //    conector.cut("0")
+
+    //    const resp = await conector.imprimir(nombreImpresora, api_key);
+    //    if (resp === true) {
+
+    //    } else {
+    //        console.log("Problema al imprimir: " + resp)
+
+    //    }
+    //}
 
     //function VerificarSeleciion() {
     //    let selectec = false

@@ -19,6 +19,9 @@ namespace CARMEN.Models
         [StringLength(25)]
         public string IP { get; set; }
 
+        
+        public int TIPO { get; set; }
+
         public virtual SUCURSAL SUCURSAL { get; set; }
     }
 }

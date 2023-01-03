@@ -16,70 +16,35 @@ namespace SaraCoffe.Controllers
 {
     public class TicketController : Controller
     {
+        private RestClient client = new RestClient("http://localhost:8080");
+        private RestRequest request = null;
 
 
-        public JsonResult PrintWhitPlugin()
+        public JsonResult PrintWhitPlugin(Ticket ticket)
         {
-
-            PrintService pS = new PrintService();
-
-            var client = new RestClient("http://localhost:8080");
-            var request = new RestRequest("/ImpresionTermica/ticket.php", Method.Post);
+            if (ticket.Tipo == 1)
+            {
+                 request = new RestRequest("/ImpresionTermica/ticket.php", Method.Post);
+            }
+            else
+            {
+                 request = new RestRequest("/ImpresionTermica/Comanda.php", Method.Post);
+            }
+           
             request.AddHeader("Content-Type", "application/json");
-            var Body = pS.FormatPrint("EPSON");
-            
-            request.AddParameter("application/json", Body, ParameterType.RequestBody);
+            request.AddParameter("application/json", JsonSerializer.Serialize(ticket), ParameterType.RequestBody);
             RestResponse response = client.Execute(request);
             return Json(response.Content, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult CashDrawer()
         {
-            PrintService pS = new PrintService();
-
-            var client = new RestClient("http://localhost:8080");
             var request = new RestRequest("/ImpresionTermica/CashDrawer.php", Method.Post);
-            request.AddHeader("Content-Type", "application/json");
-            var Body = pS.FormatPrint("EPSON");
 
-            request.AddParameter("application/json", Body, ParameterType.RequestBody);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json", "SN ", ParameterType.RequestBody);
             RestResponse response = client.Execute(request);
             return Json(response.Content, JsonRequestBehavior.AllowGet);
-        }
-
-        // GET: Ticket
-        public ActionResult Index()
-        {
-            PrintDocument pD = new PrintDocument();
-            PrinterSettings printerSettings = new PrinterSettings();
-            pD.PrinterSettings = printerSettings;
-            pD.PrintPage += Imprimir;
-            pD.Print();
-            return RedirectToAction("Success", "Ventas", new { id = 24});
-        }
-
-
-            public void Imprimir(Object sender, PrintPageEventArgs e)
-        {
-            Font font = new Font("Arial",11, FontStyle.Regular, GraphicsUnit.Point);
-            int width = 200;
-            int y = 20;
-            e.Graphics.DrawString("                          ", font, Brushes.Black, new RectangleF(0, y+=20,width, 20));
-            e.Graphics.DrawString("                          ", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("                          ", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("  Preticket               ", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("CAFETERIA TRADICIONAL SARA", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("==========VENTA=========", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("PedidoNro:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Atendido por:" + "USUARIO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("====DATOS DEL CLIENTE====", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Nombre:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Identificacion:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Correo:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Telefono:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Direccion:" + "NROPEDIDO", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("                   ", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("Cant.Descripcion     P.U Total", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-            e.Graphics.DrawString("DETALLEVENTA", font, Brushes.Black, new RectangleF(0, y += 20, width, 20));
-        }          
+        }         
     }
 }

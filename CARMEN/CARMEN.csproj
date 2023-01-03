@@ -190,6 +190,7 @@
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="DTOs\AreaImpresionDto.cs" />
+    <Compile Include="DTOs\ClienteDto.cs" />
     <Compile Include="DTOs\DetPagoDto.cs" />
     <Compile Include="DTOs\ObservacionDto.cs" />
     <Compile Include="DTOs\ProductoDto.cs" />

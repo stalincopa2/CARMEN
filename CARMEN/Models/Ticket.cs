@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CARMEN.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,13 +8,11 @@ namespace CARMEN.Models
 {
     public class Ticket
     {
-        public operaciones operaciones { set; get; }
-        public String nombreImpresora { get; set; }
-        public string serial { get; set; }
-            
-        public Ticket()
-        {
-            this.serial = ""; 
-        }
+        public string Header { set; get; }
+        public string Body { set; get; }
+        public string Footer { set; get; }
+        public string Printer { set; get; }
+        public string DatosCliente { set; get; }
+        public int Tipo { set; get; }
     }
 }

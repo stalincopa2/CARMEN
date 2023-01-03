@@ -439,14 +439,14 @@
 
 
 
-    const UrlPrint = "@Url.Action("CashDrawer", "Ticket")";
+    const UrlCashDrawer = "@Url.Action("CashDrawer", "Ticket")";
 
 
 
     function OpenCashDrawer() {
         var Obj = {}
         $.ajax({ // cabecera de mi metodo ajax
-            url: UrlPrint,
+            url: UrlCashDrawer,
             type: "GET",
             data: Obj,
             dataType: 'json',
