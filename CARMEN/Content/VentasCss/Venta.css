@@ -32,8 +32,11 @@
 }
 
 .cantInput {
-    width: 38px;
+    width: 35px;
     padding: 0px;
+    border-radius:5px;
+    border:solid 0.1px;
+    margin:5px;
 }
 
 .formVenta{
@@ -44,9 +47,14 @@
 
 
 .table-DETVENTA{
-
     width:100%;
 }
+
+.table-DETVENTA tbody tr {
+    border-bottom:solid 1px; 
+    margin-bottom: 20px;
+}
+
 /**CONFIGURACION DEL DETALLE VENTA DE LA TABLA*/
 /*.table-DETVENTA th, td {
     padding-top: 2px;
@@ -131,7 +139,7 @@
     padding: 0px 0;
 }
 
-.contenedor-conciertos {
+.contenedor-productos {
     height: 50%;
     /*Flexbox*/
     /*    width:70%;

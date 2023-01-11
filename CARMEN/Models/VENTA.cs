@@ -2,6 +2,7 @@ namespace CARMEN.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -25,8 +26,10 @@ namespace CARMEN.Models
 
         public int ID_CLIENTE { get; set; }
 
+        [DisplayName("Mesa")]
         public int? ID_MESA { get; set; }
 
+        [DisplayName("Fecha")]
         public DateTime FECHA_VENTA { get; set; }
 
         public decimal TOTAL { get; set; }
@@ -37,6 +40,7 @@ namespace CARMEN.Models
         [StringLength(50)]
         public string CLAVE_ACCESO { get; set; }
 
+        [DisplayName("Nro. Pedido")]
         public int? NRO_PEDIDO { get; set; }
 
         public virtual CLIENTE CLIENTE { get; set; }

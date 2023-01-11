@@ -1,4 +1,4 @@
-﻿@model CARMEN.Models.DET_PAGO
+﻿@model CARMEN.Models.MESA
 
 @{
     ViewBag.Title = "Delete";
@@ -8,31 +8,31 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>DET_PAGO</h4>
+    <h4>MESA</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.METODO_PAGO.NOMBRE)
+            @Html.DisplayNameFor(model => model.SALON.NOMBRE_SALON)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.METODO_PAGO.NOMBRE)
+            @Html.DisplayFor(model => model.SALON.NOMBRE_SALON)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.VENTA.COD_VENTA)
+            @Html.DisplayNameFor(model => model.COD_MESA)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VENTA.COD_VENTA)
+            @Html.DisplayFor(model => model.COD_MESA)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MONTO)
+            @Html.DisplayNameFor(model => model.NOMBRE_MESA)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MONTO)
+            @Html.DisplayFor(model => model.NOMBRE_MESA)
         </dd>
 
     </dl>

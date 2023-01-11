@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CARMEN.Models.MESA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lisado de Mesas</h2>
+
+<p>
+    @Html.ActionLink("Agregar nueva mesa", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SALON.NOMBRE_SALON)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COD_MESA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE_MESA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SALON.NOMBRE_SALON)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COD_MESA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE_MESA)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID_MESA }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.ID_MESA }) |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.ID_MESA })*@
+        </td>
+    </tr>
+}
+
+</table>

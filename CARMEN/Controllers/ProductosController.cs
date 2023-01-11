@@ -191,5 +191,19 @@ namespace SaraCoffe.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        [HttpPost]
+        public ActionResult Find(string parametro)
+        {
+            if (parametro == "")
+            {
+                return RedirectToAction("Index");
+            }
+            var Productos = db.PRODUCTO
+                       .Where(p => p.NOMBRE_PRODUCTO.Contains(parametro));
+
+            return View("Index",Productos.ToList());
+        }
     }
 }

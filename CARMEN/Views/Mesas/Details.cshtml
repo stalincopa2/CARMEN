@@ -1,0 +1,42 @@
+﻿@model CARMEN.Models.MESA
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MESA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SALON.NOMBRE_SALON)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SALON.NOMBRE_SALON)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COD_MESA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COD_MESA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRE_MESA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE_MESA)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_MESA }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
