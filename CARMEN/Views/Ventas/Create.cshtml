@@ -10,47 +10,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-7 col-md-7 col-sm-7">
-            <div class="row">
-                <div class="containerSlider">
-                    <div class="slider">
-                        @foreach (var pr in ViewBag.CATEGORIAS)
-                        {
-                            <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="cargeList">@pr.NOMBRE </button>
-                        }
-                    </div>
+            <div class="contenedor">
+                <div class="banner slider">
+                    @foreach (var pr in ViewBag.CATEGORIAS)
+                    {
+                        <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                    }
                 </div>
-            </div>
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item ">
-                        <a class="page-link control prev" href="#" tabindex="-1"><</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link control next" href="#">></a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="row pre-scrollable" id="PrByCategorias">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                CODIGO
-                            </th>
-                            <th>
-                                NOMBRE
-                            </th>
-                            <th>
-                                PRECIO
-                            </th>
-                            <th>
-                                FOTO
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="productosList">
-                    </tbody>
-                </table>
+                <div class="contenedor-conciertos" id="productosList">
+                </div>
             </div>
             <div>
                 <a href="@Url.Action("Index","Home")">Regresar </a>
@@ -64,15 +32,38 @@
                 <h4>NUEVA VENTA</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                <div class="row form-group">
-                    @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
-                    <div class="col-md-9 col-sm-9">
-                        @Html.DropDownList("ID_MESA", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                        @Html.ValidationMessageFor(model => model.ID_MESA, "", new { @class = "text-danger" })
+                <div class="row ventaItems">
+                    <div class="col-6">                     
+                        <div class="row">
+                            <div class="col-4">
+                                @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "" })
+                            </div>   
+                            <div class="col-8">
+                                @Html.DropDownList("ID_MESA", null, htmlAttributes: new { @class = "input-small" })
+                                @Html.ValidationMessageFor(model => model.ID_MESA, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "" })
+                            </div>
+                            <div class="col-6">
+                                <input type="number" readonly name="NRO_PEDIDO" class="input-small" value="@ViewBag.NRO_PEDIDO" />
+                                @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
+                    <div class="col-md-9 col-sm-9">
+                        @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "input-small" } })
+                        @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
+                    </div>
+                </div>
 
                 <div class="form-group" style="display:none;">
                     @Html.LabelFor(model => model.ID_USUARIO, "USUARIO", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
@@ -97,29 +88,7 @@
                         @Html.ValidationMessageFor(model => model.ID_ESTVENTA, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="row form-group">
-                    @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
-                    <div class="col-md-9 col-sm-9">
-                        <input type="number" readonly name="NRO_PEDIDO" class="form-control" value="@ViewBag.NRO_PEDIDO" />
-                        @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
-                    </div>
-                </div>
 
-                <div class="row form-group">
-                    @Html.LabelFor(model => model.COD_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
-                    <div class="col-md-9 col-sm-9">
-                        <input type="text" class="form-control" value="@ViewBag.COD_VENTA" id="COD_VENTA" name="COD_VENTA" readonly />
-                        @Html.ValidationMessageFor(model => model.COD_VENTA, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
-                    <div class="col-md-9 col-sm-9">
-                        @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
-                    </div>
-                </div>
 
                 <div class="form-group" style="display:none;">
                     @Html.LabelFor(model => model.NRO_FACTURA, htmlAttributes: new { @class = "control-label col-md-6" })
@@ -136,30 +105,28 @@
                         @Html.ValidationMessageFor(model => model.CLAVE_ACCESO, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <table class="table-DETVENTA">
-                    <thead>
-                        <tr>
-                            <th class="Cant">
-                                Cant
-                            </th>
-                            <th class="Descripcion">
-                                Descripcion
-                            </th>
-                            <th class="Precio">
-                                Precio
-                            </th>
-                            <th class="Total">
-                                Total
-                            </th>
-                            <th class="Op">
-                                Op
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
                 <div class="pre-scrollable" id="DETALLE_VENTA_DIV">
                     <table class="table-DETVENTA">
-                        <tbody id="LIST_DETALLE_VENTA">
+                        <thead>
+                            <tr>
+                                <th class="Cant">
+                                    Cant
+                                </th>
+                                <th class="Descripcion">
+                                    Descripcion
+                                </th>
+                                <th class="Precio">
+                                    Precio
+                                </th>
+                                <th class="Total">
+                                    Total
+                                </th>
+                                <th class="Op">
+                                    Op
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody  id="LIST_DETALLE_VENTA">
                         </tbody>
                     </table>
                 </div>
@@ -282,6 +249,7 @@
 </div>
 <script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
 <script src="~/Scripts/decimal.js"></script>
+<script src="~/Scripts/main.js"></script>
 <script>
     let TOTAL = document.getElementById("TOTAL");
     let dVentaList;

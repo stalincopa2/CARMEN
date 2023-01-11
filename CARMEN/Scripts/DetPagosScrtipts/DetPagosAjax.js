@@ -27,14 +27,8 @@ function GetDetPagosByVenta(URL, idVenta) {
 
             console.log(Pendiete);
             PendienteModal.setAttribute("value", Pendiete.toFixed(2)); 
-            //Object.values(data).forEach(element => {
-            //  /*  CreateBoxInformatio(element);*/
-            //});
         }
 
-        //var Contenedor = document.getElementById("ObservacionesContent");
-        //Contenedor.innerHTML = "";
-        //CreateOptions(Contenedor, data, Selecionada, Indice);
     });
 }
 
@@ -45,19 +39,6 @@ function CalcularAbonoTotal(e) {
     });
     return TOTALABONO; 
 }
-//function CreateBoxInformatio(e) {
-//    let BoxInformacion = document.getElementById("Abonos");
-//    var dlTag = document.createElement("dl"); 
-//    var dtTag = document.createElement("dt");
-//    var ddTag = document.createElement("dd"); 
-
-//    dtTag.innerHTML = SearchDetPagoById(e.ID_METODO);
-//    ddTag.innerHTML = e.MONTO;
-
-//    dlTag.appendChild(dtTag);
-//    dlTag.appendChild(ddTag); 
-//    BoxInformacion.appendChild(dlTag); 
-//}
 
 /*Buscar el Nombre del metodo: solucion temporarl (por bagancia)*/
 function SearchDetPagoById(id) {

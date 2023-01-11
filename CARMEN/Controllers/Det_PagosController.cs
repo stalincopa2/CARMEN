@@ -21,6 +21,7 @@ namespace SaraCoffe.Controllers
             var dET_PAGO = db.DET_PAGO.Include(d => d.METODO_PAGO).Include(d => d.VENTA);
             return View(dET_PAGO.ToList());
         }
+
         //GetDetPagosByVentas
         public ActionResult GetDetPagosByVentas(int? id)
         {
@@ -92,7 +93,7 @@ namespace SaraCoffe.Controllers
                 db.Entry(vAux).State = EntityState.Modified;
 
                 db.SaveChanges();
-                return RedirectToAction("Success","Ventas", new { id = vENTA.ID_VENTA });
+                return RedirectToAction("Success","Ventas", new { id = vENTA.ID_VENTA, TipoRegistro = 2 });
                
             }
             return HttpNotFound();

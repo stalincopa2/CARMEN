@@ -1,6 +1,6 @@
 ﻿/*AJAX PRODUCTO BY CATEGORIA */
 $(document).ready(function () {
-    $(document).on('click', '.cargeList', function (e) {
+    $(document).on('click', '.btnCargarLista', function (e) {
         e.preventDefault();
         var id = $(this).val();
         var data = { ID_CATEGORIA: id };
@@ -13,27 +13,55 @@ $(document).ready(function () {
                 console.log("Accion terminada");
             }
         }).done(function (data) {
-            dVentaList = Object.create(data);
 
-            let productList = "";
-            var imgsrc = $('#imgIcon').attr('src');
-
-            Object.values(data).forEach(element => {
-                productList +=
-                    "<tr  onclick=\"AddProductsToList(this)\" id=\"" + element.ID_PRODUCTO + "\"><td>" + element.COD_PRODUCTO + "</td>" +
-                    "<td>" + element.NOMBRE_PRODUCTO + "</td>" +
-                    "<td>" + element.PRECIO + "</td>";
-                    if (element.FOTO_PRODUCTO == "NA") {
-                        productList += "<td> <img  width=\"35\"  src=\"" + imgsrc + "\" > </td> </tr>";
-                    } else {
-                        productList += "<td> <img  width=\"35\"  src=\"/Content/ImgProducts/" + element.FOTO_PRODUCTO + "\" > </td> </tr>";
-                    }
-               
-               }
-            );
-            document.getElementById("productosList").innerHTML = productList;
+            if (data== false) {
+                productList.innerHTML = "No se han asignado productos a esta categoría";
+            } else {
+                dVentaList = Object.create(data);
+                let productList = document.getElementById("productosList");
+                productList.innerHTML = "";
+                Object.values(data).forEach(element => {
+                    productList.appendChild(CreateElements(element));
+                }
+                );
+            }
         })
     });
 });
+
+function CreateElements(PRODUCTO) {
+
+
+    let imgsrc = $('#imgIcon').attr('src');
+
+    if (PRODUCTO.FOTO_PRODUCTO != "NA") {
+        imgsrc = "/Content/ImgProducts/" + PRODUCTO.FOTO_PRODUCTO;
+    }
+
+    let divCard = document.createElement("div");
+    let divTextos = document.createElement("div");
+    let divImagen = document.createElement("div");
+    let divNombre = document.createElement("div");
+    let Imagen = document.createElement("img");
+
+    setAttributes(divCard, { "class": "card", "id": PRODUCTO.ID_PRODUCTO, "onclick": "AddProductsToList(this)" })
+    setAttributes(divTextos, { "class": "textos" })
+    setAttributes(divImagen, { "class": "ImageProduct" })
+    setAttributes(divNombre, { "class": "NameProduct" })
+    setAttributes(Imagen, { "src": imgsrc, "width": "50" })
+
+
+    divNombre.innerHTML = PRODUCTO.NOMBRE_PRODUCTO;
+
+
+    divImagen.appendChild(Imagen);
+
+    divTextos.appendChild(divImagen);
+    divTextos.appendChild(divNombre);
+    divCard.appendChild(divTextos); 
+
+
+    return divCard; 
+}
 
 

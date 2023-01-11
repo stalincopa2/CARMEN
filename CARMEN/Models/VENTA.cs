@@ -27,10 +27,6 @@ namespace CARMEN.Models
 
         public int? ID_MESA { get; set; }
 
-        [Required]
-        [StringLength(32)]
-        public string COD_VENTA { get; set; }
-
         public DateTime FECHA_VENTA { get; set; }
 
         public decimal TOTAL { get; set; }

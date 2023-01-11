@@ -50,18 +50,25 @@ namespace CARMEN.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             VENTA vENTA = db.VENTA.Find(id);
             if (vENTA == null)
             {
                 return HttpNotFound();
             }
+
+            MESA mESA = db.MESA.Find(vENTA.ID_MESA);
+
+            ViewBag.AREAIMP = db.AREA_IMPRESION.ToList();
+            ViewBag.NOMBRE_MESA = mESA.NOMBRE_MESA;
+            ViewBag.SALON = mESA.SALON.NOMBRE_SALON;
+
             return View(vENTA);
         }
 
         // GET: Ventas/Create
         public ActionResult Register()
         {
-            Guid g = Guid.NewGuid();
             var NPEDIDO = (from v in db.VENTA
                            orderby v.ID_VENTA
                            select v);
@@ -72,7 +79,6 @@ namespace CARMEN.Controllers
 
             ViewBag.METODOS_PAGO = db.METODO_PAGO.ToList();
             ViewBag.CATEGORIAS = db.CATEGORIA.ToList();
-            ViewBag.COD_VENTA = g.ToString().Substring(0, 9);
             ViewBag.ID_MESA = new SelectList(db.MESA, "ID_MESA", "NOMBRE_MESA");
             ViewBag.ID_ESTVENTA = new SelectList(db.ESTADO_VENTA, "ID_ESTVENTA", "NOMBRE_ESTADOV");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "CEDULA_USUARIO");
@@ -106,7 +112,7 @@ namespace CARMEN.Controllers
         // GET: Ventas/Create
         public ActionResult Create()
         {
-            Guid g = Guid.NewGuid();
+
             var NPEDIDO = (from v in db.VENTA
                            orderby v.ID_VENTA
                            select v);
@@ -114,10 +120,9 @@ namespace CARMEN.Controllers
             ViewBag.NRO_PEDIDO = (NPEDIDO.ToList().Count()+1);
 
             //ViewBags
-
+            var Categorias = db.CATEGORIA.OrderBy(c => c.NOMBRE); 
             ViewBag.METODOS_PAGO = db.METODO_PAGO.ToList();
-            ViewBag.CATEGORIAS = db.CATEGORIA.ToList(); 
-            ViewBag.COD_VENTA = g.ToString().Substring(0, 9);
+            ViewBag.CATEGORIAS = Categorias.ToList(); 
             ViewBag.ID_MESA= new SelectList(db.MESA, "ID_MESA", "NOMBRE_MESA");
             ViewBag.ID_ESTVENTA = new SelectList(db.ESTADO_VENTA, "ID_ESTVENTA", "NOMBRE_ESTADOV");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "CEDULA_USUARIO");
@@ -145,7 +150,6 @@ namespace CARMEN.Controllers
                return RedirectToAction("Success", new { id = vENTA.ID_VENTA, TipoRegistro = 2 });
             }
 
-            Guid g = Guid.NewGuid();
             var NPEDIDO = (from v in db.VENTA
                            orderby v.ID_VENTA
                            select v);
@@ -156,7 +160,6 @@ namespace CARMEN.Controllers
 
             ViewBag.METODOS_PAGO = db.METODO_PAGO.ToList();
             ViewBag.CATEGORIAS = db.CATEGORIA.ToList();
-            ViewBag.COD_VENTA = g.ToString().Substring(0, 9);
             ViewBag.ID_ESTVENTA = new SelectList(db.ESTADO_VENTA, "ID_ESTVENTA", "NOMBRE_ESTADOV", vENTA.ID_ESTVENTA);
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "CEDULA_USUARIO", vENTA.ID_USUARIO);
             return View(vENTA);
@@ -185,7 +188,7 @@ namespace CARMEN.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_VENTA,ID_USUARIO,ID_ESTVENTA,ID_CLIENTE,COD_VENTA,FECHA_VENTA,TOTAL,NRO_FACTURA,CLAVE_ACCESO,NRO_PEDIDO")] VENTA vENTA)
+        public ActionResult Edit([Bind(Include = "ID_VENTA,ID_USUARIO,ID_ESTVENTA,ID_CLIENTE,FECHA_VENTA,TOTAL,NRO_FACTURA,CLAVE_ACCESO,NRO_PEDIDO")] VENTA vENTA)
         {
             if (ModelState.IsValid)
             {

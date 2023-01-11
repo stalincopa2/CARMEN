@@ -1,7 +1,18 @@
 ﻿@model IEnumerable<CARMEN.Models.PRODUCTO>
 
+@using CARMEN.Models;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Productos";
+}
+@{
+    var pagina = new PAGINA();
+
+    int pageNo = 0;
+    if (ViewBag.pagina != null)
+    {
+        pagina = ViewBag.pagina;
+        pageNo = pagina.CurrentPage;
+    }
 }
 
 <!-- DATA TABLE-->
@@ -34,7 +45,7 @@
                         </div>*@
                     <div class="table-data__tool-right">
                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="location.href = '@Url.Action("Create")'">
-                            <i class="zmdi zmdi-plus"></i>Nueva Producto
+                            <i class="zmdi zmdi-plus"></i>Nuevo Producto
                         </button>
                         @*<div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                 <select class="js-select2" name="type">
@@ -86,13 +97,13 @@
                                     </td>
                                     <td>
                                         @{
-                                             string srcImage = "/Content/Images/productIcon.png";
-                                             if (item.FOTO_PRODUCTO != "NA")
-                                             {
-                                               srcImage = "/Content/ImgProducts/" + item.FOTO_PRODUCTO;
-                                             }
+                                            string srcImage = "/Content/Images/productIcon.png";
+                                            if (item.FOTO_PRODUCTO != "NA")
+                                            {
+                                                srcImage = "/Content/ImgProducts/" + item.FOTO_PRODUCTO;
+                                            }
                                             <img src="@srcImage" width="50" />
-                                         }
+                                        }
                                     </td>
                                     <td>
                                         <!--Html.ActionLink("Edit", "Edit", new { id = item.ID_VENTA }) | -->
@@ -117,6 +128,41 @@
 </section>
 <!-- END DATA TABLE-->
 
+<div class="container" style="padding:20px;">
+    <div class="row">
+        <div class="col-md-12">
+            @if (pagina.TotalPages > 0)
+            {
+                <ul class="pagination justify-content-end">
+                    @if (pagina.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Productos", new {  pg = 1 })" class="page-link"> First </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Productos", new {  pg = pagina.CurrentPage + 1 })" class="page-link">Previous </a>
+                        </li>
 
+                    }
+                    @for (int pge = pagina.StartPage; pge <= pagina.TotalPages; pge++)
+                    {
 
+                        <li class="page-item" @(pge == pagina.CurrentPage ? "active" : "")>
+                            <a href="@Url.Action("Index", "Productos", new {  pg = @pge })" class="page-link">@pge.ToString()</a>
+                        </li>
+                    }
 
+                    @if (pagina.CurrentPage < pagina.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Productos", new {  pg = pagina.CurrentPage + 1 })" class="page-link">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="@Url.Action("Index", "Productos", new {  pg = pagina.TotalPages})" class="page-link">Last</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>

@@ -19,10 +19,23 @@ namespace SaraCoffe.Controllers
         private Model1 db = new Model1();
 
         // GET: Productos
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
-            // var pRODUCTO = db.PRODUCTO.Include(p => p.CATEGORIA);
-            var pRODUCTO = db.PRODUCTO;
+            const int pageSize = 10;
+            if (pg < 1)
+                pg = 1;
+
+            var data1 = db.PRODUCTO.Count();
+
+            var pagina = new PAGINA(data1, pg, pageSize);
+
+            ViewBag.pagina = pagina;
+
+            var pRODUCTO = db.PRODUCTO
+                .OrderByDescending(p=>p.NOMBRE_PRODUCTO)
+                .Skip((pg - 1) * pageSize)
+                .Take(pagina.PageSize);
+
             return View(pRODUCTO.ToList());
         }
 
@@ -32,6 +45,7 @@ namespace SaraCoffe.Controllers
         {
             List<ProductoDto> prSerialized = db.PRODUCTO
                 .Where(p => p.ID_CATEGORIA == ID_CATEGORIA)
+                .OrderBy(p=>p.NOMBRE_PRODUCTO)
                 .Select(p => new ProductoDto {
                     ID_CATEGORIA = p.ID_CATEGORIA?? default(int),
                     ID_PRODUCTO = p.ID_PRODUCTO ,

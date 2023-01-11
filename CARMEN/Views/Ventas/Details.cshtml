@@ -1,88 +1,117 @@
 ﻿@model CARMEN.Models.VENTA
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles";
+    Decimal TOTAL = 0;
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>VENTA</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
-        </dt>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="card">
+                <div class="hidden-print card-header">
+                    <strong>Detalle</strong> Venta
+                </div>
+                <div class="card-body card-block">
+                    @*<form action="" method="post" class="form-inline">
+                        </form>*@
+                    <div id="dl-horizontal">
+                        <dl class="dl-horizontal">
+                            <dd id="CLIENTE">Cliente: @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
-        </dd>
+                            @*<dt>
+                                    @Html.DisplayNameFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.USUARIO.CEDULA_USUARIO)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.ESTADO_VENTA.NOMBRE_ESTADOV)
+                                </dd>*@
 
-        <dd>
-            @Html.DisplayFor(model => model.USUARIO.CEDULA_USUARIO)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CLIENTE.NOMBRE_CLIENTE)
-        </dt>
+                            <dd id="USUARIO">Atendido por: @Html.DisplayFor(model => model.USUARIO.NOMBRE_USUARIO)</dd>
+                            <dd id="MESA">Mesa: @ViewBag.NOMBRE_MESA</dd>
+                            <dd id="SALON">Salon: @ViewBag.SALON</dd>
+                            <dd id="FECHA">@Html.DisplayNameFor(model => model.FECHA_VENTA): @Html.DisplayFor(model => model.FECHA_VENTA)</dd>
+                            <dd id="NROPEDIDO">@Html.DisplayNameFor(model => model.NRO_PEDIDO):  @Html.DisplayFor(model => model.NRO_PEDIDO)</dd>
+                        </dl>
+                        <!--DETALLES DE LA VENT-->
+                        <table class="table-DETVENTA">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        Cant
+                                    </th>
+                                    <th></th>
+                                    <th colspan="3" align="left">
+                                        Descripción
+                                    </th>
+                                    <th colspan="3">
+                                        P.U
+                                    </th>
+                                    <th>
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                }
+                                @foreach (var item in Model.DETALLE_VENTA)
+                                {
+                                    string Cantidad = "Cantidad" + i;
+                                    string Descripcion = "Descripcion" + i;
+                                    string PrecioU = "PrecioU" + i;
+                                    string TotalU = "TotalU" + i;
+                                    var TotaluValue = item.PRECIO_UPRODUCT * item.CANTIDAD;
+                                    <tr>
+                                        <td colspan="3" id="@Cantidad">@item.CANTIDAD</td>
+                                        @if (item.ID_OBSERVACION == 1)
+                                        {
+                                            <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO)</td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="3" id="@Descripcion">@Html.DisplayFor(itemModel => item.PRODUCTO.NOMBRE_PRODUCTO) (@Html.DisplayFor(itemModel => item.OBSERVACION.DET_OBSER))</td>
+                                        }
+                                        <td></td>
+                                        <td colspan="2" id="@PrecioU">@item.PRECIO_UPRODUCT</td>
+                                        <td id="@TotalU">@TotaluValue</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="NroArticulos" value="@i" />
 
-        <dd>
-            @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.COD_VENTA)
-        </dt>
+                        <dl class="dl-horizontal" style="padding-top:15px;">
+                            <dt id="SUBTOTAL1">Subtotal:@Html.DisplayFor(model => model.TOTAL)</dt>
+                            <dt id="SUBTOTAL2">Subtotal 0%:@Html.DisplayFor(model => model.TOTAL)</dt>
+                            <dt id="TOTAL">Total:@Html.DisplayFor(model => model.TOTAL)</dt>
+                        </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.COD_VENTA)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FECHA_VENTA)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FECHA_VENTA)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TOTAL)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TOTAL)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NRO_FACTURA)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NRO_FACTURA)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CLAVE_ACCESO)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CLAVE_ACCESO)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NRO_PEDIDO)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NRO_PEDIDO)
-        </dd>
-
-    </dl>
+                        <dl class="dl-horizontal" style="padding-top:5px;">
+                            @foreach (var item in Model.DET_PAGO)
+                            {
+                                TOTAL += item.MONTO;
+                                <dt id="MET_PAGO">@Html.DisplayFor(itemModel => item.METODO_PAGO.NOMBRE): @Html.DisplayFor(itemModel => item.MONTO)</dt>
+                            }
+                            @{
+                                var cambio = TOTAL - Model.TOTAL;
+                                if (cambio < 0)
+                                {
+                                    cambio = 0;
+                                }
+                            }
+                            <dt id="CAMBIO">Cambio:@cambio</dt>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_VENTA }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID_VENTA }) |
+    @Html.ActionLink("Regresar a la Lista", "Index")
 </p>

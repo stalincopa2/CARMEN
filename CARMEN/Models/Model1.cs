@@ -261,10 +261,6 @@ namespace CARMEN.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<VENTA>()
-                .Property(e => e.COD_VENTA)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<VENTA>()
                 .Property(e => e.TOTAL)
                 .HasPrecision(16, 2);
 

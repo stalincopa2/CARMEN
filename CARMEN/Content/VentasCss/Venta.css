@@ -1,5 +1,34 @@
-﻿.page-content--bgf7 {
-    padding-top:15px;
+﻿
+.page-content--bgf7 {
+    padding-top: 15px;
+}
+
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: red;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   background: #555;
+}
+
+
+
+.ventaItems{
+    margin-bottom:11px;
 }
 
 .cantInput {
@@ -7,43 +36,23 @@
     padding: 0px;
 }
 
-.table {
-    margin-top: 20px;
-    margin-left:10px;
-    max-width: 400px;
-}
-.table thead th{
-    font-size:10px
-}
-.table tbody td {
-    font-size: 10px;
-    margin:0px;
-    padding:0px;
-}
-
-
 .formVenta{
     text-align: left;
-    font-size: 11px;
-    max-width:300px;
+    font-size: 12px;
 }
-.formVenta .form-group input{
-    margin: 0px 1px auto 0px;
-    height: 20px;
-    max-width:200px;
-    
-}
-.formVenta .form-group select {
-    margin: 0px 1px auto 0px;
-    height: 2px;
-    max-width: 200px;
+
+
+
+.table-DETVENTA{
+
+    width:100%;
 }
 /**CONFIGURACION DEL DETALLE VENTA DE LA TABLA*/
-.table-DETVENTA th, td {
+/*.table-DETVENTA th, td {
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 20px;
-    max-width: 80px;
+    
 }
 .table-DETVENTA .Cant {
     padding-left: 0px;
@@ -70,15 +79,151 @@
     padding-right: 0px;
 }
 
+*/
+#DETALLE_VENTA_DIV {
+    max-height: 500px;
+    height: 270px;
+}
 
-#DETALLE_VENTA_DIV{
-    max-height:155px;
-    height: 155px;
+.cajas {
+    width: calc(25% - 40px);
+    margin: 15px 5px 20px;
+    
+    height: 125px;
+    background: rgb(222, 222, 222);
+    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+    float: left;
+    display:flex;
+    flex-direction:column;
 }
-#PrByCategorias {
-    max-height: 290px;
+
+.con-cajas {
+    padding: 2px 3px 2px 3px;
+    max-height: 600px;
     height: 290px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.btnIcon{
-    padding:15px;
+.titleProducto {
+    font-size: 10px;
 }
+.imageProducto{
+    width: 100px;
+    padding: 2px 1px 2px 1px;
+}
+
+
+
+
+.contenedor {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0;
+    /*Flexbox*/
+    /*display:flex; 
+    gap: 20px;*/
+}
+
+.titulo {
+    font-size: 24px;
+    padding: 0px 0;
+}
+
+.contenedor-conciertos {
+    height: 50%;
+    /*Flexbox*/
+    /*    width:70%;
+        display:flex;
+        flex-wrap:wrap;*/
+    /*Grid*/
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 5px;
+}
+
+.card {
+    border-radius: 10px;
+    max-height: 200px;
+    font-weight: bold;
+    padding: 0px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+
+
+    /*Flexbox*/
+  /*  width: calc(33.33% -20px);*/
+}
+
+    .card .textos {
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+   
+    }
+
+.ImageProduct {
+    width:100%;
+    height:70px;
+    display: flex;
+    justify-content: center;
+}
+
+.NameProduct{
+    display:flex;
+    justify-content:center;
+    font-size:9px;
+    padding:0;
+    margin:0px;
+}
+
+.banner {
+    height: 30%;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom:10px;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    gap:5px;
+}
+/*
+.banner ul {
+    list-style: none;
+}
+
+.banner ul li {
+    margin: 20px;
+    font-weight: bold;
+}*/
+
+    .banner .boton {
+        background: #FFD600;
+        display: block;
+        width: 110px;
+        height:60px;
+        font-weight: bold;
+        font-size: 10px;
+        text-align: center;
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+    }
+
+@media screen and (max-width: 900px) {
+}
+
+@media screen and (max-width: 700px) {
+}
+
+@media screen and (max-width: 600px) {
+}
+

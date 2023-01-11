@@ -7,7 +7,7 @@ const SUBTOTAL1 = document.getElementById("SUBTOTAL1").innerHTML;
 const SUBTOTAL2 = document.getElementById("SUBTOTAL2").innerHTML;
 const TOTAL = document.getElementById("TOTAL").innerHTML;
 const CAMBIO = document.getElementById("CAMBIO").innerHTML;
-const MET_PAGO = document.getElementById("MET_PAGO").innerHTML;
+
 
 
 const NROPEDIDO = document.getElementById("NROPEDIDO").innerHTML;
