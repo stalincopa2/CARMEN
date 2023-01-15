@@ -61,6 +61,37 @@ namespace SaraCoffe.Controllers
             return View();
         }
 
+
+        // POST: Observasiones/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public JsonResult CreateAjax(ObservacionDto oObservcacion)
+        {
+            String request = "Failed";
+            OBSERVACION oBSERVACION = new OBSERVACION();
+            var repeat = db.OBSERVACION.Where(o => o.DET_OBSER == oObservcacion.DET_OBSER);
+
+            if (repeat.Any())
+            {
+                request = "Repeat";
+                return Json(request, JsonRequestBehavior.AllowGet);
+            }
+
+            if (ModelState.IsValid)
+            {
+                oBSERVACION.DET_OBSER = oObservcacion.DET_OBSER; 
+                db.OBSERVACION.Add(oBSERVACION);
+                db.SaveChanges();
+
+                request = "Succes";
+                return Json(request, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(request, JsonRequestBehavior.AllowGet);
+        }  
+
+
         // POST: Observasiones/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.

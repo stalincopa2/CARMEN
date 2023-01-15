@@ -6,6 +6,7 @@ const MESA = document.getElementById("MESA").innerHTML;
 const SUBTOTAL1 = document.getElementById("SUBTOTAL1").innerHTML;
 const SUBTOTAL2 = document.getElementById("SUBTOTAL2").innerHTML;
 const TOTAL = document.getElementById("TOTAL").innerHTML;
+const MET_PAGO = document.getElementById("MET_PAGO").innerHTML; 
 const CAMBIO = document.getElementById("CAMBIO").innerHTML;
 
 
@@ -27,6 +28,7 @@ function TextoDetalleVenta() {
 
        DetVentaString+= LogicaImpresion(Cantidad, Descripcion, PrecioU, TotalU); 
     }
+    console.log(DetVentaString)
     return DetVentaString
 }
 
@@ -39,7 +41,7 @@ function LogicaImpresion(Cantidad, Descripcion, PrecioU, TotalU) {
 
 function AgregarEspacios(Descripcion) {
     var aux=0;
-    var CarPermitidos =17; 
+    var CarPermitidos =20; 
     var Inicio = 0;
     var Final = CarPermitidos; 
 
@@ -47,8 +49,6 @@ function AgregarEspacios(Descripcion) {
     var LnProducto = "";
     
     aux = CantCaracteres;
-/*    console.log(aux); */
-
     while (aux > CarPermitidos){     
         LnProducto += Descripcion.substr(Inicio, Final) + "\n"+"   ";
         Inicio = Final; 

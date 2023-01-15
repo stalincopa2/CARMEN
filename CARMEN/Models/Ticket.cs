@@ -13,6 +13,8 @@ namespace CARMEN.Models
         public string Footer { set; get; }
         public string Printer { set; get; }
         public string DatosCliente { set; get; }
+        public String MetodosPago { set; get; }
         public int Tipo { set; get; }
+
     }
 }

@@ -8,18 +8,19 @@ namespace SaraCoffe.Service
 {
     public class PictureService
     {
-        public PictureService()
+        private String PathDirectory;
+        public PictureService(string pathDirectory)
         {
-
+            PathDirectory = pathDirectory;
         }
-
+        //"/Content/ImgProducts/{0}"
         public String Insert(HttpPostedFileBase File, HttpServerUtilityBase Server)
         {
             Guid g = Guid.NewGuid();
 
             var FileName = g.ToString().Substring(0, 10) + File.FileName.Substring(File.FileName.Length - 5, 5);
             Stream stream = File.InputStream;
-            String Ruta = String.Format("/Content/ImgProducts/{0}", FileName);
+            String Ruta = String.Format(PathDirectory, FileName);
             String oPath = Server.MapPath("~" + Ruta);
 
             File.SaveAs(oPath);
@@ -36,7 +37,7 @@ namespace SaraCoffe.Service
 
             var FileName = g.ToString().Substring(0, 10) + File.FileName.Substring(File.FileName.Length - 5, 5);
             Stream stream = File.InputStream;
-            String Ruta = String.Format("/Content/ImgProducts/{0}", FileName);
+            String Ruta = String.Format(PathDirectory, FileName);
             String oPath = Server.MapPath("~" + Ruta);
 
             File.SaveAs(oPath);
@@ -45,7 +46,7 @@ namespace SaraCoffe.Service
 
         public void Delete(String FileName, HttpServerUtilityBase Server)
         {
-            String Ruta = String.Format("/Content/ImgProducts/{0}", FileName);
+            String Ruta = String.Format(PathDirectory, FileName);
             String oPath = Server.MapPath("~" + Ruta);
 
             if (System.IO.File.Exists(oPath))

@@ -26,12 +26,19 @@
             @Html.DisplayFor(modelItem => item.NOMBRE)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            @{
+                string srcImage = "/Content/Images/productIcon.png";
+                if (item.DESCRIPCION != "NA")
+                {
+                    srcImage = "/Content/ImgCategorias/" + item.DESCRIPCION;
+                }
+                <img src="@srcImage" width="50" />
+            }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_CATEGORIA }) |
-            @Html.ActionLink("Detaille", "Details", new { id=item.ID_CATEGORIA }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.ID_CATEGORIA })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID_CATEGORIA }) |
+            @Html.ActionLink("Detaille", "Details", new { id = item.ID_CATEGORIA }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_CATEGORIA })
         </td>
     </tr>
 }

@@ -177,11 +177,11 @@
 <script>
     const UrlPrint = "@Url.Action("PrintWhitPlugin", "Ticket")";
     const SrcImg = document.getElementById("LOGO").src;
-    const DtosClienteTicket = CLIENTE+"\n"; 
-    const HeaderTickek = NROPEDIDO + "\n" + FECHA + "\n" + USUARIO + "\n" + MESA + "\n";
+    const HeaderTickek = NROPEDIDO + "   " + MESA + "\n" + FECHA + "\n" + USUARIO + "\n";
+    const DtosClienteTicket = CLIENTE + "\n"; 
     const BodyTicket = DETALLEVENTA;
-    const FooterTikcet = SUBTOTAL1 + "\n" + SUBTOTAL2 + "\n" + TOTAL + "\n\n" + MET_PAGO + "\n" + CAMBIO + "\n";
-
+    const FooterTikcet = SUBTOTAL1 + "\n" + SUBTOTAL2 + "\n" + TOTAL + "\n\n";
+    const MetodosPago = MET_PAGO + "  " + CAMBIO + "\n";
     
     function imprimir(input,tipo) {
         let ticket = {
@@ -189,6 +189,7 @@
             Header: HeaderTickek,
             Body: BodyTicket,
             Footer: FooterTikcet,
+            MetodosPago: MetodosPago,
             Printer: input.value,
             Tipo :tipo
         }

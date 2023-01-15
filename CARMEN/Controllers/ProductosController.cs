@@ -80,7 +80,7 @@ namespace SaraCoffe.Controllers
             return View(pRODUCTO);
         }
 
-        //[AuthorizeUser(IdOperacion:1)]
+        //[AuthorizeUser(IdOperacion:1)]   
         // GET: Productos/Create
         public ActionResult Create()
         {
@@ -100,7 +100,7 @@ namespace SaraCoffe.Controllers
             {
                 if (Request.Files.Count > 0)
                 {
-                    PictureService pService = new PictureService();
+                    PictureService pService = new PictureService("/Content/ImgProducts/{0}");
                     var File = Request.Files[0];
                     pRODUCTO.FOTO_PRODUCTO = pService.Insert(File, Server);
                 }
@@ -144,7 +144,7 @@ namespace SaraCoffe.Controllers
             {
                 if (Request.Files.Count > 0)
                 {
-                    PictureService pService = new PictureService();
+                    PictureService pService = new PictureService("/Content/ImgProducts/{0}");
                     var File = Request.Files[0];
                     pRODUCTO.FOTO_PRODUCTO = pService.Edit(File, Server, pRODUCTO.FOTO_PRODUCTO);
                 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CARMEN.Models;
+using SaraCoffe.Service;
 
 namespace SaraCoffe.Controllers
 {
@@ -50,11 +51,20 @@ namespace SaraCoffe.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    PictureService pService = new PictureService("/Content/ImgCategorias/{0}");
+                    var File = Request.Files[0];
+                    cATEGORIA.DESCRIPCION = pService.Insert(File, Server);
+                }
+                else
+                {
+                    cATEGORIA.DESCRIPCION = "NA";
+                }
                 db.CATEGORIA.Add(cATEGORIA);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(cATEGORIA);
         }
 
@@ -82,6 +92,13 @@ namespace SaraCoffe.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    PictureService pService = new PictureService("/Content/ImgCategorias/{0}");
+                    var File = Request.Files[0];
+                    cATEGORIA.DESCRIPCION = pService.Edit(File, Server, cATEGORIA.DESCRIPCION);
+                }
+
                 db.Entry(cATEGORIA).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

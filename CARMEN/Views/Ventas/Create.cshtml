@@ -12,9 +12,21 @@
         <div class="col-lg-7 col-md-7 col-sm-7">
             <div class="contenedor">
                 <div class="banner slider">
-                    @foreach (var pr in ViewBag.CATEGORIAS)
-                    {
-                        <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                    @{
+                        foreach (var pr in ViewBag.CATEGORIAS)
+                        {
+                            if (pr.DESCRIPCION != "NA")
+                            {
+                                var Style = "background-image:url('/Content/ImgCategorias/" + pr.DESCRIPCION + "')";
+                                <button style="@Style" value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                                
+                            }
+                            else
+                            {
+                                <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                            }
+
+                        }
                     }
                 </div>
                 <div class="pre-scrollable contenedor-productos" id="productosList">
@@ -223,24 +235,25 @@
                     Añadir detalles al producto selecionado
                     <br>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalObsBody">
                     <div class="container">
                         <div class="row">
                             <!-- ID_OBSERVACION-->
-                            <div class="row form-group" >
-                                <div class="col col-md-3">
-                                    <label class="form-control-label">OBSERVACIONES</label>
-                                </div>
-                                <div class="col-12 col-md-9" id="ObservacionesContent">
+                            <div class="col-6">
+                                <label class="form-control-label">OBSERVACIONES</label>
+                            </div>
+                            <div class="col-5" id="ObservacionesContent">
 
-                                </div>
+                            </div>
+                            <div class="col-1">
+                                <button id="BtnAddObs" type="button" data-toggle="tooltip" data-original-title="Añadir" onclick="ObsModalAdd()">
+                                    <i class="zmdi zmdi-collection-add"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer" id="FooterModalObs">
-
-                    </div>
+                </div>
+                <div class="modal-footer" id="FooterModalObs">
 
                 </div>
             </div>
@@ -251,10 +264,12 @@
 <script src="~/Scripts/decimal.js"></script>
 <script src="~/Scripts/main.js"></script>
 <script>
+    const ModlObsOriginalBody = document.getElementById("modalObsBody").innerHTML; 
     let TOTAL = document.getElementById("TOTAL");
     let dVentaList;
     let urlProuctosByCategoria = "@Url.Action("ProductosByCategoria","Productos")";
     let ObservacionesURL = "@Url.Action("GetObservaciones", "Observasiones")";
+    let AddObsURL = "@Url.Action("CreateAjax", "Observasiones")";
     let num = 0;
 </script>
 
@@ -264,6 +279,35 @@
 <script src="~/Scripts/ProductosScirpts/ProductosAjax.js"></script>
 <script src="~/Scripts/ObservacionesScripts/ObservacionesAjax.js"></script>
 <script>
+   
+
+  function ObsModalAdd() {
+        let Seleccionada = document.getElementById("Selecionada").value;
+        let Indice = document.getElementById("Indice").value; 
+
+        let ModalBody = document.getElementById("modalObsBody");
+        let FooterModalObs = document.getElementById("FooterModalObs");
+
+        let InputObs = document.createElement("input");  
+        let ButtonAdd = document.createElement("button"); 
+        let ButtonReturn = document.createElement("button"); 
+   
+        setAttributes(InputObs, { "type": "text", "id": "DET_OBSER", "class": "form-control","required":"", "placeholder": "Ingrese la observación aquí" })
+        setAttributes(ButtonAdd, { "class": "btn btn-info", "onclick": "AddObservacion()" });
+        setAttributes(ButtonReturn, { "class": "btn btn-warning", "type": "button", "onclick": "GetObservaciones('" + ObservacionesURL + "'," + Seleccionada + "," + Indice+")" });
+        
+        ModalBody.innerHTML = ""; 
+        ModalBody.appendChild(InputObs); 
+
+
+        FooterModalObs.innerHTML = "";
+        ButtonReturn.innerHTML = "Regresar";
+        ButtonAdd.innerHTML = "Añadir";
+        FooterModalObs.appendChild(ButtonAdd);
+        FooterModalObs.appendChild(ButtonReturn); 
+    }
+
+
 
     function AddProductsToList(element) {
         var PRODUCTO = dVentaList.find(p => p.ID_PRODUCTO == element.id);
