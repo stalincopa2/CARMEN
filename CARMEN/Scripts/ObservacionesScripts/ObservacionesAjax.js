@@ -115,3 +115,30 @@ function CambiarValoresProducto(Indice) {
     PRODUCTO_OBSERVACION.setAttribute("value", ID_OBSERVACION.value);
 }
 
+
+
+function ObsModalAdd() {
+    let Seleccionada = document.getElementById("Selecionada").value;
+    let Indice = document.getElementById("Indice").value;
+
+    let ModalBody = document.getElementById("modalObsBody");
+    let FooterModalObs = document.getElementById("FooterModalObs");
+
+    let InputObs = document.createElement("input");
+    let ButtonAdd = document.createElement("button");
+    let ButtonReturn = document.createElement("button");
+
+    setAttributes(InputObs, { "type": "text", "id": "DET_OBSER", "class": "form-control", "required": "", "placeholder": "Ingrese la observación aquí" })
+    setAttributes(ButtonAdd, { "class": "btn btn-info", "onclick": "AddObservacion()" });
+    setAttributes(ButtonReturn, { "class": "btn btn-warning", "type": "button", "onclick": "GetObservaciones('" + ObservacionesURL + "'," + Seleccionada + "," + Indice + ")" });
+
+    ModalBody.innerHTML = "";
+    ModalBody.appendChild(InputObs);
+
+
+    FooterModalObs.innerHTML = "";
+    ButtonReturn.innerHTML = "Regresar";
+    ButtonAdd.innerHTML = "Añadir";
+    FooterModalObs.appendChild(ButtonAdd);
+    FooterModalObs.appendChild(ButtonReturn);
+}

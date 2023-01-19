@@ -55,39 +55,6 @@
     margin-bottom: 20px;
 }
 
-/**CONFIGURACION DEL DETALLE VENTA DE LA TABLA*/
-/*.table-DETVENTA th, td {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 20px;
-    
-}
-.table-DETVENTA .Cant {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-.table-DETVENTA .Descripcion {
-    padding-left: 10px;
-    padding-right: 50px;
-}
-.table-DETVENTA .Precio{
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.table-DETVENTA .Total {
-    padding-left: 10px;
-    padding-right: 0px;
-}
-.table-DETVENTA .Op {
-    padding-left: 10px;
-    padding-right: 0px;
-}
-.table-DETVENTA .Eliminar {
-    padding-left: 1px;
-    padding-right: 0px;
-}
-
-*/
 #DETALLE_VENTA_DIV {
     max-height: 500px;
     height: 270px;
@@ -235,3 +202,8 @@
 @media screen and (max-width: 600px) {
 }
 
+/*SOLUCIONES TEMPORALES*/
+
+#NRO_PEDIDO {
+    width: 90%;
+}

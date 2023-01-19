@@ -44,30 +44,55 @@
                 <h4>NUEVA VENTA</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="row ventaItems">
-                    <div class="col-6">                     
-                        <div class="row">
-                            <div class="col-4">
-                                @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "" })
-                            </div>   
-                            <div class="col-8">
-                                @Html.DropDownList("ID_MESA", null, htmlAttributes: new { @class = "input-small" })
-                                @Html.ValidationMessageFor(model => model.ID_MESA, "", new { @class = "text-danger" })
+                    <div class="row ventaItems">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3">
+                                    @Html.LabelFor(model => model.ID_CLIENTE, "CLIENTE", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-7">
+                                    @Html.DropDownList("ID_CLIENTE", null, htmlAttributes: new { @class = "input-small" })
+                                    @Html.ValidationMessageFor(model => model.ID_CLIENTE, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-8">
+                                    @Html.DropDownList("ID_MESA", null, htmlAttributes: new { @class = "input-small" })
+                                    @Html.ValidationMessageFor(model => model.ID_MESA, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-6">
-                                @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "" })
+
+                    <div class="row ventaItems">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3">
+                                    @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-9">
+                                    @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "input-small" } })
+                                    @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <input type="number" readonly name="NRO_PEDIDO" class="input-small" value="@ViewBag.NRO_PEDIDO" />
-                                @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-6">
+                                    <input readonly name="NRO_PEDIDO" class="input-small" value="@ViewBag.NRO_PEDIDO" id="NRO_PEDIDO" />
+                                    @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
@@ -280,35 +305,6 @@
 <script src="~/Scripts/ObservacionesScripts/ObservacionesAjax.js"></script>
 <script>
    
-
-  function ObsModalAdd() {
-        let Seleccionada = document.getElementById("Selecionada").value;
-        let Indice = document.getElementById("Indice").value; 
-
-        let ModalBody = document.getElementById("modalObsBody");
-        let FooterModalObs = document.getElementById("FooterModalObs");
-
-        let InputObs = document.createElement("input");  
-        let ButtonAdd = document.createElement("button"); 
-        let ButtonReturn = document.createElement("button"); 
-   
-        setAttributes(InputObs, { "type": "text", "id": "DET_OBSER", "class": "form-control","required":"", "placeholder": "Ingrese la observación aquí" })
-        setAttributes(ButtonAdd, { "class": "btn btn-info", "onclick": "AddObservacion()" });
-        setAttributes(ButtonReturn, { "class": "btn btn-warning", "type": "button", "onclick": "GetObservaciones('" + ObservacionesURL + "'," + Seleccionada + "," + Indice+")" });
-        
-        ModalBody.innerHTML = ""; 
-        ModalBody.appendChild(InputObs); 
-
-
-        FooterModalObs.innerHTML = "";
-        ButtonReturn.innerHTML = "Regresar";
-        ButtonAdd.innerHTML = "Añadir";
-        FooterModalObs.appendChild(ButtonAdd);
-        FooterModalObs.appendChild(ButtonReturn); 
-    }
-
-
-
     function AddProductsToList(element) {
         var PRODUCTO = dVentaList.find(p => p.ID_PRODUCTO == element.id);
         var IndiceInput = FindInputCreated(num, PRODUCTO.ID_PRODUCTO);

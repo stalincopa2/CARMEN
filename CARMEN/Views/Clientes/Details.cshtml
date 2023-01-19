@@ -1,0 +1,58 @@
+﻿@model CARMEN.Models.CLIENTE
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CLIENTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRE_CLIENTE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE_CLIENTE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RUC_CLIENTE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RUC_CLIENTE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL_CLIENTE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL_CLIENTE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TELEFONO_CLIENTE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TELEFONO_CLIENTE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DIRECCION_CLIENTE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIRECCION_CLIENTE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_CLIENTE }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

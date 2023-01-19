@@ -75,13 +75,16 @@ namespace CARMEN.Controllers
 
             ViewBag.NRO_PEDIDO = (NPEDIDO.ToList().Count() + 1);
 
+            var Categorias = db.CATEGORIA.OrderBy(c => c.NOMBRE);
+
             //ViewBags
 
             ViewBag.METODOS_PAGO = db.METODO_PAGO.ToList();
-            ViewBag.CATEGORIAS = db.CATEGORIA.ToList();
+            ViewBag.CATEGORIAS = Categorias.ToList();
             ViewBag.ID_MESA = new SelectList(db.MESA, "ID_MESA", "NOMBRE_MESA");
             ViewBag.ID_ESTVENTA = new SelectList(db.ESTADO_VENTA, "ID_ESTVENTA", "NOMBRE_ESTADOV");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "CEDULA_USUARIO");
+            ViewBag.ID_CLIENTE = new SelectList(db.CLIENTE, "ID_CLIENTE", "NOMBRE_CLIENTE"); 
 
             return View();
         }
@@ -126,7 +129,8 @@ namespace CARMEN.Controllers
             ViewBag.ID_MESA= new SelectList(db.MESA, "ID_MESA", "NOMBRE_MESA");
             ViewBag.ID_ESTVENTA = new SelectList(db.ESTADO_VENTA, "ID_ESTVENTA", "NOMBRE_ESTADOV");
             ViewBag.ID_USUARIO = new SelectList(db.USUARIO, "ID_USUARIO", "CEDULA_USUARIO");
-           
+            ViewBag.ID_CLIENTE = new SelectList(db.CLIENTE, "ID_CLIENTE", "NOMBRE_CLIENTE");
+
             return View();
         }
 

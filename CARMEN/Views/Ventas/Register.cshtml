@@ -12,9 +12,21 @@
         <div class="col-lg-7 col-md-7 col-sm-7">
             <div class="contenedor">
                 <div class="banner slider">
-                    @foreach (var pr in ViewBag.CATEGORIAS)
-                    {
-                        <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                    @{
+                        foreach (var pr in ViewBag.CATEGORIAS)
+                        {
+                            if (pr.DESCRIPCION != "NA")
+                            {
+                                var Style = "background-image:url('/Content/ImgCategorias/" + pr.DESCRIPCION + "')";
+                                <button style="@Style" value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+
+                            }
+                            else
+                            {
+                                <button value="@pr.ID_CATEGORIA" name="id" id="btnCargarLista" class="boton btnCargarLista">@pr.NOMBRE </button>
+                            }
+
+                        }
                     }
                 </div>
                 <div class="pre-scrollable contenedor-productos" id="productosList">
@@ -35,6 +47,17 @@
                     <div class="row ventaItems">
                         <div class="col-6">
                             <div class="row">
+                                <div class="col-3">
+                                    @Html.LabelFor(model => model.ID_CLIENTE, "CLIENTE", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-7">
+                                    @Html.DropDownList("ID_CLIENTE", null, htmlAttributes: new { @class = "input-small" })
+                                    @Html.ValidationMessageFor(model => model.ID_CLIENTE, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
                                 <div class="col-4">
                                     @Html.LabelFor(model => model.ID_MESA, null, htmlAttributes: new { @class = "" })
                                 </div>
@@ -44,24 +67,30 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row ventaItems">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3">
+                                    @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-9">
+                                    @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "input-small" } })
+                                    @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-6">
                                     @Html.LabelFor(model => model.NRO_PEDIDO, htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" readonly name="NRO_PEDIDO" class="input-small" value="@ViewBag.NRO_PEDIDO" />
+                                    <input readonly name="NRO_PEDIDO" class="input-small" value="@ViewBag.NRO_PEDIDO" id="NRO_PEDIDO" />
                                     @Html.ValidationMessageFor(model => model.NRO_PEDIDO, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.FECHA_VENTA, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3" })
-                        <div class="col-md-9 col-sm-9">
-                            @Html.EditorFor(model => model.FECHA_VENTA, new { htmlAttributes = new { @class = "input-small" } })
-                            @Html.ValidationMessageFor(model => model.FECHA_VENTA, "", new { @class = "text-danger", @readonly = "readonly" })
                         </div>
                     </div>
 
@@ -73,13 +102,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="display:none">
-                        @Html.LabelFor(model => model.ID_CLIENTE, "CLIENTE", htmlAttributes: new { @class = "control-label col-md-6 col-sm-6" })
-                        <div class="col-md-6 col-sm-6">
-                            <input name="ID_CLIENTE" id="ID_CLIENTE" value="1" readonly class="form-control" />
-                            @Html.ValidationMessageFor(model => model.ID_CLIENTE, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
 
                     <div class="form-group" style="display:none;">
                         @Html.LabelFor(model => model.ID_ESTVENTA, "ID_ESTVENTA", htmlAttributes: new { @class = "control-label col-md-3" })
@@ -196,24 +218,25 @@
                     Añadir detalles al producto selecionado
                     <br>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalObsBody">
                     <div class="container">
                         <div class="row">
                             <!-- ID_OBSERVACION-->
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    <label class="form-control-label">OBSERVACIONES</label>
-                                </div>
-                                <div class="col-12 col-md-9" id="ObservacionesContent">
+                            <div class="col-6">
+                                <label class="form-control-label">OBSERVACIONES</label>
+                            </div>
+                            <div class="col-5" id="ObservacionesContent">
 
-                                </div>
+                            </div>
+                            <div class="col-1">
+                                <button id="BtnAddObs" type="button" data-toggle="tooltip" data-original-title="Añadir" onclick="ObsModalAdd()">
+                                    <i class="zmdi zmdi-collection-add"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer" id="FooterModalObs">
-
-                    </div>
+                </div>
+                <div class="modal-footer" id="FooterModalObs">
 
                 </div>
             </div>
@@ -224,10 +247,12 @@
 <script src="~/Template/vendor/jquery-3.2.1.min.js"></script>
 <script src="~/Scripts/decimal.js"></script>
 <script>
+    const ModlObsOriginalBody = document.getElementById("modalObsBody").innerHTML; 
     let TOTAL = document.getElementById("TOTAL");
     let dVentaList;
     let urlProuctosByCategoria = "@Url.Action("ProductosByCategoria","Productos")";
     let ObservacionesURL = "@Url.Action("GetObservaciones", "Observasiones")";
+    let AddObsURL = "@Url.Action("CreateAjax", "Observasiones")";
     let num = 0;
 </script>
 

@@ -24,6 +24,7 @@ namespace CARMEN.Models
 
         public int ID_ESTVENTA { get; set; }
 
+        [DisplayName("CLIENTE")]
         public int ID_CLIENTE { get; set; }
 
         [DisplayName("Mesa")]
